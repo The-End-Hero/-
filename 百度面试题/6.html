@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="Drag.js"></script>
+        <script src="limitDrag.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            #odiv1{
+                width: 100px;
+                height: 100px;
+                background: #000;
+                position: absolute;
+            }
+            #odiv2{
+                width: 100px;
+                height: 100px;
+                background: #ccc;
+                position: absolute;
+            }
+        </style>
+        <script>
+            window.onload=function(){
+                new Drag("odiv1");
+                new Drag("odiv2");
+            };
+        </script>
+    </head>
+    <body>
+        <div id="odiv1"></div>
+        <div id="odiv2"></div>
+
+    </body>
+</html>
