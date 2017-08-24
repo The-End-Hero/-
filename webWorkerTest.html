@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script id="worker" >//type="app/worker">
+
+            addEventListener('message', function(e) {
+                console.log(e.data)
+                postMessage('Work done!');
+            }, false);
+
+        </script>
+
+<script>
+    (function() {
+
+        var blob = new Blob([document.querySelector('#worker').textContent]);
+
+        var url = window.URL.createObjectURL(blob);
+
+        var worker = new Worker(url);
+
+        worker.addEventListener('message', function(e) {
+            console.log(e.data);
+        }, false);
+
+        worker.postMessage('发送请求');
+        worker.postMessage({
+            start: 1503573420767 ,
+            end: 1503873420767,
+        })
+    })();
+</script>
+</body>
+</html>
