@@ -6,12 +6,24 @@
 </head>
 <body>
 
+JavaScript多线程  web worker 测试 .
+移动端兼容较好,可以使用在倒计时部分.
+防止touchmove,scroll 阻塞事件队列.
 
+
+
+<h1>web worker 返回:</h1>
+<h3 class="info"></h3>
 <script id="worker" >//type="app/worker">
 
             addEventListener('message', function(e) {
-                console.log(e.data)
-                postMessage('Work done!');
+                console.log('收到请求',JSON.stringify(e.data))
+                let time = parseInt((e.data.end-e.data.start)/1000)
+
+                setInterval(()=>{
+                    time = time - 1
+                    postMessage(time);
+                },1000)
             }, false);
 
         </script>
@@ -26,10 +38,11 @@
         var worker = new Worker(url);
 
         worker.addEventListener('message', function(e) {
-            console.log(e.data);
+            console.log('收到返回',JSON.stringify(e.data));
+            document.querySelector('.info').innerHTML=e.data
         }, false);
 
-        worker.postMessage('发送请求');
+//        worker.postMessage('发送请求');
         worker.postMessage({
             start: 1503573420767 ,
             end: 1503873420767,
