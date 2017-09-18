@@ -1,3 +1,22 @@
 ## CSS背景
 
-background
+### background
+
+
+
+### background-imgae
+
+
+
+### background-size
+
+
+
+### background-origin
+
+
+
+### background-repeat
+
+
+

@@ -35,7 +35,7 @@ JavaScript多线程  web worker 测试 .
 
         var url = window.URL.createObjectURL(blob);
 
-        var worker = new Worker(url);
+        var worker = new Worker(url);// url其实是类似一个get请求，可以是同域名下的某个文件（类似Apache的www目录下），也可以是cdn？
 
         worker.addEventListener('message', function(e) {
             console.log('收到返回',JSON.stringify(e.data));
