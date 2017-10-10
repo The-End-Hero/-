@@ -31,19 +31,28 @@
     </style>
 </head>
 <body>
-三层
-    最外层：overflow: hidden;
-            white-space: nowrap;
-    中层：  overflow-x: scroll;
-           overflow-y: hidden;
-            .box::-webkit-scrollbar {
-                width: 0px;
-            }
-            .box::-webkit-scrollbar {
-                display: none;
-            }
-    内层:    display: inline-block;
-            vertical-align: top;
+<h1>三层</h1>
+<div>
+    最外层：    
+        <br>overflow: hidden;
+        <br>white-space: nowrap;（否则不会在同一行内）
+</div>
+    <div>
+        中层： 
+    <br>overflow-x: scroll;
+    <br>    overflow-y: hidden;
+    <br>    中层::-webkit-scrollbar {
+        <br>        width: 0px;
+        <br>    }
+        <br>     中层::-webkit-scrollbar {
+            <br>       display: none;
+            <br>   }
+    </div>
+    <div>
+        内层:    
+        <br> display: inline-block;
+        <br> vertical-align: top;
+    </div>
 <div class="boxone">
     <div class="box">
         <div></div>
