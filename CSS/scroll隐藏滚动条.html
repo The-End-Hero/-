@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scroll隐藏滚动条</title>
+    <style>
+        .boxone{
+            overflow: hidden;
+            width: 300px;
+            white-space: nowrap;
+        }
+        .box{
+            overflow-x: scroll;
+            overflow-y: hidden;
+            width: 100%;
+        }
+        .box::-webkit-scrollbar {
+             width: 0px;
+         }
+        .box::-webkit-scrollbar {
+             display: none;
+         }
+        .box div{
+            width: 160px;
+            margin-right: 20px;
+            height: 200px;
+            display: inline-block;
+            vertical-align: top;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+三层
+    最外层：overflow: hidden;
+            white-space: nowrap;
+    中层：  overflow-x: scroll;
+           overflow-y: hidden;
+            .box::-webkit-scrollbar {
+                width: 0px;
+            }
+            .box::-webkit-scrollbar {
+                display: none;
+            }
+    内层:    display: inline-block;
+            vertical-align: top;
+<div class="boxone">
+    <div class="box">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+</body>
+</html>
