@@ -1,7 +1,8 @@
-### 如需本地打开
+### 如需打开
 
 - 安装xmind
 - 安装visio
+- drow.io（chrome插件）
 
 ###  redux
 
