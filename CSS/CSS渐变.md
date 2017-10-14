@@ -8,6 +8,16 @@
 
 在轮播图下边部分，需要一层遮罩，这时候使用线性渐变就非常方便了。
 
+```scss
+someone{
+  	height: 150px;
+    width: 30px;
+    background: linear-gradient(white, gray); 
+}
+```
+
+
+
 ### 径向渐变
 
 公司优惠券样式中：一排小圆点，之前使用div模拟，增加了DOM数量，性能/可维护性上大打折扣。
