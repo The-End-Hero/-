@@ -36,3 +36,12 @@ document.documentElement.clientWidth;
 document.documentElement.clientHeight;
 //这个得到的是设备像素可见宽高，比如iPhone 4s在微信内设置了viewport为1的时候为320*416(手机480 - 微信状态栏64), iPhone 5里为320*504
 ```
+
+
+### offsetHeight  scrollHeight  clientHeight
+
+document.querySelector('xxxx').offsetHeight 可视区域高度 内容高+padding+边框
+
+document.querySelector('xxxx').scrollHeight 真实高度 整个元素的高度（包括带滚动条的隐蔽的地方） 
+
+document.querySelector('xxxx').clientHeight 可视区域高度 内容的可视高度（不包括边框，边距或滚动条）

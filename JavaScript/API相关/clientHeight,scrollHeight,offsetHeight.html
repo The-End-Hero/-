@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Height</title>
+    <style>
+        .one{
+            height: 200px;
+            width: 200px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            background: goldenrod;
+        }
+        .two{
+            width: 200px;
+            height: 500px;
+            padding: 20px;
+            border: 5px solid black;
+            margin: 50px;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="one">
+        <div class="two client"></div>
+    </div>
+
+    <div class="one">
+        <div class="two offset"></div>
+    </div>
+
+    <div class="one">
+        <div class="two scroll"></div>
+    </div>
+
+    <script>
+        document.querySelector('.client').innerHTML = 'clientHeight:'+document.querySelector('.client').clientHeight
+        document.querySelector('.offset').innerHTML = 'offsetHeight:'+document.querySelector('.offset').offsetHeight
+        document.querySelector('.scroll').innerHTML = 'scrollHeight:'+document.querySelector('.scroll').scrollHeight
+    </script>
+</body>
+</html>
