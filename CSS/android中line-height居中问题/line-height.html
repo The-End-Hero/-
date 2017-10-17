@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>line-height</title>
+    <style>
+        .spaner—one{
+            display: inline-block;
+            background: palevioletred;
+            height: 100px;
+            line-height: 100px;
+            font-size: 26px;
+            transform: scale(0.5);
+        }
+        .spaner-two{
+            display: inline-block;
+            background: palevioletred;
+            height: 100px;
+            line-height: 100px;
+            font-size: 26px;
+            zoom:0.5;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <span>scale</span>
+    <span class="spaner—one">我是一行想居中文字，谢谢 23333</span>
+    <span>scale</span>
+</div>
+
+<div>
+    <span>zoom</span>
+    <span class="spaner-two">我是一行想居中文字，谢谢 23333</span>
+    <span>zoom</span>
+</div>
+</body>
+</html>
