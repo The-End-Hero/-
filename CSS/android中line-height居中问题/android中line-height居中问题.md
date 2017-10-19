@@ -2,8 +2,8 @@
 
 - Font-size 尽量为大于12的偶数。
 - line-height设置为原来两倍
-  - 使用transform:scale缩放（不影响其他布局）
-  - 使用zoom缩放，印象其他布局，实际上会比较容易些
+  - 使用transform:scale缩放（不影响其他布局）（实测rem中，缩放）
+  - 使用zoom缩放，印象其他布局，实际上会比较容易些（实测rem中，不缩放）
 
 
 
