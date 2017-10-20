@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深拷贝</title>
+</head>
+<body>
+<div class="one"></div>
+<div class="two"></div>
+<script>
+    var data = {
+        isee: undefined,
+        price: null,
+        promotion: {
+            price: 100
+        }
+    }
+    console.log(JSON.stringify(data))
+    document.querySelector('.one').innerHTML = JSON.stringify(data)
+    document.querySelector('.two').innerHTML = JSON.stringify(JSON.parse(JSON.stringify(data)));
+
+</script>
+</body>
+</html>

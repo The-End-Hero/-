@@ -56,3 +56,9 @@ function incrementMultiple() {
 值得一提的是，在increment函数被调用时，this.state并没有被改变，依然，要等到render函数被重新执行时（或者shouldComponentUpdate函数返回false之后）才被改变。
 
 **传统式setState的存在，会把函数式setState拖下水啊！**
+
+
+
+#### 如果setState多次改变同一个state呢？？？？
+
+以最后一个为准	
