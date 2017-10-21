@@ -61,4 +61,4 @@ function incrementMultiple() {
 
 #### 如果setState多次改变同一个state呢？？？？
 
-以最后一个为准	
+以最后一个为为准，详细的还得研究源码才知道。
