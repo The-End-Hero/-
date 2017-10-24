@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>移动端点击事件顺序 touchstart > touchend > click</h1>
+    <div style="background:deeppink">
+        touch ME !!!!
+    </div>
+    <script>
+        const div = document.querySelector('div')
+        div.addEventListener('click', () => {
+            console.log('click')
+        })
+        div.addEventListener('touchstart', () => {
+            console.log('start')
+        })
+        div.addEventListener('touchend', () => {
+            console.log('end')
+        })
+    </script>
+
+</body>
+
+</html>
