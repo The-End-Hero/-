@@ -1,24 +1,610 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>深拷贝</title>
 </head>
-<body>
-<div class="one"></div>
-<div class="two"></div>
-<script>
-    var data = {
-        isee: undefined,
-        price: null,
-        promotion: {
-            price: 100
-        }
-    }
-    console.log(JSON.stringify(data))
-    document.querySelector('.one').innerHTML = JSON.stringify(data)
-    document.querySelector('.two').innerHTML = JSON.stringify(JSON.parse(JSON.stringify(data)));
 
-</script>
+<body>
+    <div class="one"></div>
+    <div class="two"></div>
+    <script>
+        var data = {
+            isee: undefined,
+            price: null,
+            promotion: {
+                price: 100
+            }
+        }
+        var promotion = {
+            price: 200
+        }
+        setTimeout(() => {
+            data.promotion = promotion
+        }, 4)
+        console.log(JSON.stringify(data))
+        document.querySelector('.one').innerHTML = JSON.stringify(data)
+        document.querySelector('.two').innerHTML = JSON.stringify(JSON.parse(JSON.stringify(data)));
+
+        // import resizeImg from '../../common/js/resizeImg'
+
+        function dataInit(data) {
+            // 价格显示priceShowType 2显示促销预定30  1显示促销31  0显示普通  -1不显示
+            // 倒计时显示LimitedTimeType  true显示 false不显示
+            //    爆款未开始状态  showOnly为1-->显示为爆款状态
+            //    爆款未开始状态  showOnly为0-->显示为普通状态(无爆款价 无倒计时)
+            let initData = JSON.parse(JSON.stringify(data))
+            let goodsData = initData.dataMap
+                // todo 防重复执行
+            if (!!!goodsData) {
+                console.log('防止空')
+                return false
+            } else if (!!!goodsData.promotion) {
+                console.log('促销接口初始化失败')
+                return false
+            }
+            // goodsData.onceOk='已执行'
+            console.log(goodsData)
+            console.log('dataInitdataInitdataInitdataInitdataInitdataInitdataInitdataInitdataInit')
+                // const config = {
+                //     imgA: goodsData && goodsData.imgs.map((data) => {
+                //         return resizeImg(data, 750, 750)
+                //     }),
+                //     imgToNative: goodsData && goodsData.imgs,
+                //     imgUrl: 'imgUrl',
+                //     linkUrl: 'linkUrl',
+                //     linkType: 'linkType',
+                //     autoplay: true,
+                //     dots: true,
+                // };
+                // goodsData.config = config
+            if (goodsData) {
+                let data = []
+                for (let key in goodsData.productColors) {
+                    data.push(goodsData.productColors[key] + ' / ')
+                }
+                if (data.length > 0) {
+                    data[data.length - 1] = data[data.length - 1].replace(/\//g, '')
+                } else {
+                    data = null
+                }
+                let standards = '';
+                for (let key in goodsData.productColorStandards) {
+                    const size = goodsData.productColorStandards[key][0].standard + '(' + goodsData.productColorStandards[key][0].standardUnit + ') / '
+                    if (standards.indexOf(size) < 0) {
+                        standards += size
+                    }
+                }
+                // goodsData.shopAddress=this.state.shopAddress
+                // console.log('standards',standards)
+                const colorsIndex = standards.lastIndexOf('\/')
+                standards = standards.slice(0, colorsIndex)
+                goodsData.standardShow = standards
+                goodsData.colorShow = data
+            }
+
+
+            // todo 控制倒计时显示 价格状态显示
+            let priceShowType
+            let LimitedTimeType
+            let log
+            goodsData.aaaaa = 123
+            goodsData.promotion.checkout = 2333
+                // goodsData.promotion =1111111
+            console.log(goodsData, 'goodsData')
+            console.log(initData, 'initData')
+            if (goodsData && goodsData.promotion.promotionType == 31 && goodsData.showOnly == 1 && goodsData.promotion.nowDate < goodsData.promotion.startTime) {
+                // 活动未开始 线上不可售状态 按照未开始促销样式显示
+                priceShowType = 1
+                LimitedTimeType = true
+                log = '爆款未开始 线上不可售状态 按照未开始促销样式显示'
+            } else if (goodsData && goodsData.promotion.promotionType == 31 && goodsData.showOnly == 0 && goodsData.promotion.nowDate < goodsData.promotion.startTime) {
+                // 活动未开始 线上可售状态  按照普通商品可售显示
+                priceShowType = 0
+                LimitedTimeType = false
+                log = '爆款未开始 线上可售状态  按照普通商品可售显示'
+            } else if (goodsData && goodsData.promotion.promotionType == null && goodsData.showOnly == 1) {
+                // 普通商品 线上不可售
+                priceShowType = -1
+                LimitedTimeType = false
+                log = '普通商品 线上不可售'
+            } else if (goodsData && goodsData.promotion.promotionType == null && goodsData.showOnly == 0) {
+                // 普通商品  线上可售
+                priceShowType = 0
+                LimitedTimeType = false
+                log = '普通商品  线上可售'
+            } else if (goodsData && goodsData.promotion.promotionType == 31 && goodsData.promotion.nowDate > goodsData.promotion.startTime && goodsData.promotion.nowDate < goodsData.promotion.endTime && goodsData.promotion.remainingStock > 0) {
+                // 爆款进行中，有库存
+                priceShowType = 1
+                LimitedTimeType = true
+                log = '爆款进行中，有库存'
+            } else if (goodsData && goodsData.promotion.promotionType == 31 && goodsData.promotion.nowDate > goodsData.promotion.startTime && goodsData.promotion.nowDate < goodsData.promotion.endTime && goodsData.promotion.remainingStock == 0) {
+                // 爆款进行中，无库存  线上可售，按照普通商品可售显示。线上不可售，按照促销已售罄状态显示
+                if (goodsData.showOnly == 1) {
+                    priceShowType = 1
+                    LimitedTimeType = true
+                    log = '爆款进行中，无库存  线上不可售，按照促销已售罄状态显示'
+                } else {
+                    priceShowType = 0
+                    LimitedTimeType = false
+                    log = '爆款进行中，无库存  线上可售，按照普通商品可售显示'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 30 && goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime && goodsData.promotion.nowDate < goodsData.promotion.bookingEndTime && goodsData.promotion.remainingStock == 0) {
+                // 预定进行中，无库存  线上可售，按照普通商品可售显示。线上不可售，按照促销已售完状态显示
+                if (goodsData.showOnly == 1) {
+                    priceShowType = 2
+                    LimitedTimeType = true
+                    log = '预定进行中，无库存  线上不可售，按照促销已售完状态显示'
+                } else {
+                    priceShowType = 0
+                    LimitedTimeType = false
+                    log = '预定进行中，无库存  线上可售，按照普通商品可售显示。'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 30 && goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime && goodsData.promotion.nowDate < goodsData.promotion.bookingEndTime && goodsData.promotion.remainingStock > 0) {
+                // 预定进行中，有库存
+                priceShowType = 2
+                LimitedTimeType = true
+                log = '预定进行中，有库存'
+            } else if (goodsData && goodsData.promotion.promotionType == 30 && goodsData.promotion.nowDate < goodsData.promotion.bookingStartTime) {
+                // 预定未开始，线上可售，按照普通商品可售显示。线上不可售，按照促销已售完状态显示
+                if (goodsData.showOnly == 1) {
+                    priceShowType = -1
+                    LimitedTimeType = false
+                    log = '预定未开始，线上不可售，按照促销已售完状态显示'
+                } else {
+                    priceShowType = 0
+                    LimitedTimeType = false
+                    log = '预定未开始，线上可售，按照普通商品可售显示。'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime && goodsData.promotion.nowDate < goodsData.promotion.bookingEndTime && goodsData.promotion.remainingStock == 0) {
+                // 拼团进行中，无库存  线上可售，按照普通商品可售显示。线上不可售，按照促销已售完状态显示
+                if (goodsData.showOnly == 1) {
+                    priceShowType = 3
+                    LimitedTimeType = true
+                    log = '拼团进行中，无库存  线上不可售，按照促销已售完状态显示'
+                } else {
+                    priceShowType = 3
+                    LimitedTimeType = true
+                    log = '拼团进行中，无库存  线上可售，按照普通商品可售显示。'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime && goodsData.promotion.nowDate < goodsData.promotion.bookingEndTime && goodsData.promotion.remainingStock > 0) {
+                // 拼团进行中，有库存
+                priceShowType = 3
+                LimitedTimeType = true
+                log = '拼团进行中，有库存'
+            } else if (goodsData && goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate < goodsData.promotion.bookingStartTime) {
+                // 拼团未开始，线上可售，按照普通商品可售显示。线上不可售，按照促销已售完状态显示
+                if (goodsData.showOnly == 1) {
+                    priceShowType = -1
+                    LimitedTimeType = false
+                    log = '拼团未开始，线上不可售，按照普通商品不可售显示'
+                } else {
+                    priceShowType = 0
+                    LimitedTimeType = false
+                    log = '拼团未开始，线上可售，按照普通商品可售显示。'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate > goodsData.promotion.endTime) {
+                // 拼团活动结束 倒计时才结束
+                if (goodsData.showOnly == 1) {
+                    priceShowType = -1
+                    LimitedTimeType = false
+                    log = '拼团活动结束 倒计时才结束，线上不可售，按照普通商品不可售显示'
+                } else {
+                    priceShowType = 0
+                    LimitedTimeType = false
+                    log = '拼团活动结束 倒计时才结束，线上可售，按照普通商品可售显示。'
+                }
+            } else if (goodsData && goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime && goodsData.promotion.nowDate < goodsData.promotion.endTime) {
+                // 拼团活动内结束 倒计时一直存在,价格一直显示为拼团状态
+                priceShowType = 3
+                LimitedTimeType = true
+                log = '拼团活动内结束 倒计时一直存在,价格一直显示为拼团状态'
+            } else {
+                priceShowType = 0
+                LimitedTimeType = false
+            }
+            console.log(log, 'log')
+            console.log(priceShowType, 'priceShowType')
+            console.log(LimitedTimeType, 'LimitedTimeType')
+
+
+            goodsData.promotion.priceShowType = priceShowType
+            goodsData.promotion.LimitedTimeType = LimitedTimeType
+
+
+
+
+
+
+            // todo 控制拼团进度状态
+            let status
+            let groupDivPercentage
+            let groupStatus
+            let groupStatusColor
+
+            if (goodsData && goodsData.promotion.promotionType == 28) {
+                status = Math.round(goodsData.promotion.offeredNumber / goodsData.promotion.numberConditions * 100)
+                if (status > 100) {
+                    status = 100
+                } else if (status < 1 && status != 0) {
+                    status = 1
+                } else if (status > 99) {
+                    if (goodsData.promotion.numberConditions > goodsData.promotion.offeredNumber) {
+                        status = 99
+                    } else {
+                        status = 100
+                    }
+                } else if (status == 0) {
+                    status = 0
+                }
+                goodsData.promotion.groupDivPercentage = status // > 1 ? status : 1
+                groupDivPercentage = status
+                if (goodsData.promotion.numberConditions > goodsData.promotion.offeredNumber && goodsData.promotion.bookingStatus == 1) {
+                    // 人数条件 > 已参团人数 且在预定时间内
+                    goodsData.promotion.groupStatus = '拼团中' + status + '%'
+                    groupStatus = '拼团中' + status + '%'
+                } else if (goodsData.promotion.numberConditions <= goodsData.promotion.offeredNumber) {
+                    // 人数条件 <= 已参团人数
+                    goodsData.promotion.groupStatus = '已成团'
+                    groupStatus = '已成团'
+                } else if (goodsData.promotion.nowDate > goodsData.promotion.bookingEndTime) {
+                    // 超出预定时间
+                    if (goodsData.promotion.numberConditions > goodsData.promotion.offeredNumber) {
+                        goodsData.promotion.groupStatus = '拼团失败'
+                        groupStatus = '拼团失败'
+                        goodsData.promotion.groupStatusColor = '#ff454a'
+                        groupStatusColor = '#ff454a'
+                    } else {
+                        goodsData.promotion.groupStatus = '已成团'
+                        groupStatus = '已成团'
+                    }
+                }
+            }
+
+
+            // todo 预定（28,30）情况下，总价
+            let booktotalPrice
+            if (goodsData.promotion.promotionType == 30 || goodsData.promotion.promotionType == 28) {
+                goodsData.promotion.booktotalPrice = (goodsData.promotion.skuPromotionPrice * 1000000 + goodsData.promotion.bookingAmount * 1000000) / 1000000
+                booktotalPrice = (goodsData.promotion.skuPromotionPrice * 1000000 + goodsData.promotion.bookingAmount * 1000000) / 1000000
+            }
+
+
+            goodsData.customPromotion = {
+                LimitedTimeType,
+                priceShowType,
+                groupDivPercentage,
+                groupStatusColor,
+                groupStatus,
+                booktotalPrice
+            }
+
+            // todo 控制footer状态
+            // isBuyNow 立即购买
+            const isBuyNow = (goodsData.promotion.promotionType == 31) &&
+                (goodsData.promotion.endTime > goodsData.promotion.nowDate) &&
+                (goodsData.promotion.remainingStock > 0) &&
+                (goodsData.promotion.nowDate > goodsData.promotion.startTime)
+                // nostart 未开始
+            const nostart = (goodsData.showOnly == 1) &&
+                (goodsData.promotion.promotionType == 31) &&
+                (goodsData.promotion.nowDate < goodsData.promotion.startTime)
+                // noStock 售罄
+            const noStock = (goodsData.showOnly == 1) &&
+                (goodsData.promotion.promotionType == 31) &&
+                (goodsData.promotion.endTime > goodsData.promotion.nowDate) &&
+                (goodsData.promotion.remainingStock == 0)
+                // canBook 支付定金
+            const canBook = (goodsData.promotion.promotionType == 30) &&
+                (goodsData.promotion.bookingEndTime > goodsData.promotion.nowDate) &&
+                (goodsData.promotion.remainingStock > 0) &&
+                (goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime)
+                // noBook 已售完
+            const noBook = (goodsData.showOnly == 1 && goodsData.promotion.promotionType == 30) &&
+                (goodsData.promotion.bookingEndTime > goodsData.promotion.nowDate) &&
+                (goodsData.promotion.remainingStock == 0) &&
+                (goodsData.promotion.nowDate > goodsData.promotion.bookingStartTime)
+                // groupEnd 已结束
+            const groupEnd = (goodsData.promotion.promotionType == 28) &&
+                (goodsData.promotion.bookingEndTime < goodsData.promotion.nowDate) &&
+                (goodsData.promotion.nowDate < goodsData.promotion.endTime)
+                // groupNoStock 已抢完
+            const groupNoStock = (goodsData.promotion.promotionType == 28) &&
+                (goodsData.promotion.remainingStock == 0) &&
+                (goodsData.promotion.bookingEndTime > goodsData.promotion.nowDate)
+                // console.log(goodsData.showOnly != 1)
+                // console.log(goodsData.promotion.promotionType == 31)
+                // console.log(goodsData.promotion.nowDate)
+                // console.log(goodsData.promotion.startTime)
+                // console.log(goodsData.promotion.nowDate - goodsData.promotion.startTime)
+
+            // groupBook 支付定金 拼团
+            const groupBook = (goodsData.promotion.promotionType == 28) &&
+                (goodsData.promotion.remainingStock > 0) &&
+                (goodsData.promotion.bookingStartTime < goodsData.promotion.nowDate) &&
+                (goodsData.promotion.bookingEndTime > goodsData.promotion.nowDate)
+
+            // addcart 加入购物车
+            const addCart = goodsData.showOnly == 0 &&
+                ((goodsData.promotion.promotionType != 31 && goodsData.promotion.promotionType != 30 && goodsData.promotion.promotionType != 28) ||
+                    (goodsData.promotion.promotionType == 31 && goodsData.promotion.remainingStock == 0) ||
+                    (goodsData.promotion.promotionType == 31 && goodsData.promotion.nowDate < goodsData.promotion.startTime) ||
+                    (goodsData.promotion.promotionType == 30 && goodsData.promotion.remainingStock == 0) ||
+                    (goodsData.promotion.promotionType == 30 && goodsData.promotion.nowDate < goodsData.promotion.bookingStartTime) ||
+                    (goodsData.promotion.promotionType == 30 && goodsData.promotion.nowDate > goodsData.promotion.bookingEndTime) ||
+                    (goodsData.promotion.promotionType == 30 && goodsData.promotion.bookingStatus == 2)) ||
+                ((goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate < goodsData.promotion.bookingStartTime) ||
+                    (goodsData.promotion.promotionType == 28 && goodsData.promotion.nowDate > goodsData.promotion.endTime))
+
+            console.log('isBuyNow--------', isBuyNow)
+            console.log('nostart---------', nostart)
+            console.log('noStock---------', noStock)
+            console.log('addCart---------', addCart)
+            console.log('canBook---------', canBook)
+            console.log('noBook----------', noBook)
+            console.log('groupEnd--------', groupEnd)
+            console.log('groupNoStock----', groupNoStock)
+            console.log('groupBook----', groupBook)
+            goodsData.footerStatus = {
+                isBuyNow: isBuyNow,
+                nostart: nostart,
+                noStock: noStock,
+                addCart: addCart,
+                canBook: canBook,
+                noBook: noBook,
+                groupEnd: groupEnd,
+                groupNoStock: groupNoStock,
+                groupBook: groupBook,
+            }
+
+
+            // initData.dataMap = goodsData
+            console.log(initData, 'initData')
+            console.log(goodsData, 'goodsData')
+            console.log('dataInitdataInitdataInitdataInitdataInitdataInitdataInitdataInitdataInit')
+            window.goodsData = goodsData
+                // sessionStorage.setItem('initData',initData)
+            return initData
+        }
+
+        var goodsData = {
+            "code": "200",
+            "message": "成功",
+            "dataMap": {
+                "psgId": 1008666578,
+                "productId": 3114801,
+                "pdtSku": "20319757",
+                "pdtName": "水星家纺 多规格商品ZJ 水星家纺系列 ZJ0001",
+                "productSecondName": "cl测试专用-线上可售",
+                "brandId": 24911,
+                "brandName": "水星家纺",
+                "seriesId": 41527,
+                "seriesName": "水星家纺系列",
+                "modelNumber": "ZJ0001",
+                "shopId": 1000086,
+                "shopName": "花花水星家纺系列2(上海真北商场)",
+                "colorId": 20,
+                "color": "桔红色",
+                "colorRgb": "#ff7500",
+                "standard": "1000",
+                "standardUnit": "mm",
+                "chargeUnit": "AH",
+                "chargeUnitName": "件",
+                "material1": "",
+                "material2": "",
+                "material3": "",
+                "material": "主要用料",
+                "materialQuality": "",
+                "salePrice": 1.1,
+                "onlinePrice": 1,
+                "marketPrice": 1.1,
+                "categoryId": 1080,
+                "categoryName": "装饰架/装饰搁板",
+                "countryId": "CN",
+                "countryName": "中国",
+                "provinceId": "310000",
+                "provinceName": "上海市",
+                "cityId": "310100",
+                "cityName": "上海市",
+                "weight": 0,
+                "priceType": "议价",
+                "lvInfo": "合格",
+                "refundType": "支持",
+                "goodsType": 0,
+                "inventory": 99995,
+                "saleOnly": 0,
+                "showOnly": 0,
+                "shopType": 2,
+                "businessType": 0,
+                "picUrl": "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqbGAa1CrAAB3iFNL_V8117.jpg",
+                "imgs": [
+                    "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqbGAa1CrAAB3iFNL_V8117.jpg",
+                    "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqeWAabAGAAI3vqSCycg811.jpg",
+                    "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqfaAfCQaAAMt8t-SRNA614.png"
+                ],
+                "spu": null,
+                "productColors": {
+                    "20": "桔红色",
+                    "21": "玫红色"
+                },
+                "productColorStandards": {
+                    "20": [{
+                        "psgId": 1008666578,
+                        "productId": 3114801,
+                        "pdtSku": "20319757",
+                        "pdtName": "多规格商品ZJ",
+                        "productSecondName": "cl测试专用-线上可售",
+                        "brandId": 24911,
+                        "brandName": "水星家纺",
+                        "seriesId": 41527,
+                        "seriesName": "水星家纺系列",
+                        "modelNumber": "ZJ0001",
+                        "shopId": 1000086,
+                        "colorId": 20,
+                        "color": "桔红色",
+                        "colorRgb": null,
+                        "standard": "1000",
+                        "standardUnit": "mm",
+                        "chargeUnit": "AH",
+                        "chargeUnitName": "件",
+                        "salePrice": 1.1,
+                        "onlinePrice": 1,
+                        "marketPrice": 1.1,
+                        "goodsType": 0,
+                        "inventory": 99995,
+                        "picUrl": "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqeWAabAGAAI3vqSCycg811.jpg",
+                        "imgs": [
+                            "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqeWAabAGAAI3vqSCycg811.jpg",
+                            "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqfaAfCQaAAMt8t-SRNA614.png",
+                            "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqbGAa1CrAAB3iFNL_V8117.jpg"
+                        ],
+                        "skuFlag": 1,
+                        "colorFlag": 1,
+                        "categoryId": 1080,
+                        "categoryName": "装饰架/装饰搁板",
+                        "showOnly": 0
+                    }],
+                    "21": [{
+                        "psgId": 1008666577,
+                        "productId": 3114801,
+                        "pdtSku": "20319758",
+                        "pdtName": "多规格商品ZJ",
+                        "productSecondName": "cl测试专用-线上可售",
+                        "brandId": 24911,
+                        "brandName": "水星家纺",
+                        "seriesId": 41527,
+                        "seriesName": "水星家纺系列",
+                        "modelNumber": "ZJ0001",
+                        "shopId": 1000086,
+                        "colorId": 21,
+                        "color": "玫红色",
+                        "colorRgb": null,
+                        "standard": "1000",
+                        "standardUnit": "mm",
+                        "chargeUnit": "AH",
+                        "chargeUnitName": "件",
+                        "salePrice": 1.2,
+                        "onlinePrice": 1.1,
+                        "marketPrice": 1.2,
+                        "goodsType": 0,
+                        "inventory": 99999,
+                        "picUrl": "http://img1.uat1.rs.com/g1/M00/00/E7/wKh8ylmnqbeAYOC4AABkXewhiEE782.jpg",
+                        "imgs": [
+                            "http://img1.uat1.rs.com/g1/M00/00/E7/wKh8ylmnqbeAYOC4AABkXewhiEE782.jpg",
+                            "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqeWAabAGAAI3vqSCycg811.jpg",
+                            "http://img1.uat1.rs.com/g1/M00/01/5A/wKh8y1mnqfaAfCQaAAMt8t-SRNA614.png"
+                        ],
+                        "skuFlag": 0,
+                        "colorFlag": 0,
+                        "categoryId": 1080,
+                        "categoryName": "装饰架/装饰搁板",
+                        "showOnly": 0
+                    }]
+                },
+                "productAttributeList": [{
+                    "attributeId": 2832,
+                    "attrNameFront": "风格",
+                    "attrNameBack": "风格",
+                    "isRequired": 1,
+                    "productAttributeValueList": [{
+                        "valueId": 16142,
+                        "valueName": "法式\r",
+                        "valueDesc": "法式\r"
+                    }, {
+                        "valueId": 16136,
+                        "valueName": "中式\r",
+                        "valueDesc": "中式\r"
+                    }, {
+                        "valueId": 16145,
+                        "valueName": "地中海\r",
+                        "valueDesc": "地中海\r"
+                    }, {
+                        "valueId": 16139,
+                        "valueName": "新中式\r",
+                        "valueDesc": "新中式\r"
+                    }]
+                }],
+                "productShopGoodsAttrVoList": [],
+                "skuList": [],
+                "productTextVo": {
+                    "modelType": 0,
+                    "productHtml": "<p>测试水星家纺多规格商品~~~</p>"
+                },
+                "relationGoods": [],
+                "roomId": null,
+                "roomStatus": null,
+                "roomTitle": null,
+                "roomLiveUrl": null,
+                "roomLivePic": null,
+                "groupid": null,
+                "pageid": null,
+                "discountPrice": null,
+                "stock": null,
+                "shopInfoBrief": {
+                    "id": 1000086,
+                    "shop_name": "花花水星家纺系列2(上海真北商场)",
+                    "has_promotion": 0,
+                    "has_promotion_coupon": 0,
+                    "city_id": "310100",
+                    "city_name": "上海市",
+                    "market_id": 19,
+                    "market_name": "上海真北商场",
+                    "market_short": "真北店",
+                    "market_lon": "121.392227",
+                    "market_lat": "31.24442",
+                    "address": "普陀区真北路1208号",
+                    "shop_pic": "http://img1.uat1.rs.com/g1/M00/01/44/wKh8ylnEb0WAM0qvAAHgkWhHo3U229.jpg",
+                    "shopType": 2,
+                    "experienceFlag": null
+                },
+                promotion: {
+                    bookingAmount: 0.01,
+                    bookingEndTime: 1508428799000,
+                    bookingFavorType: 4,
+                    bookingFavorValue: null,
+                    bookingStartTime: 1508380320000,
+                    bookingStatus: 2,
+                    bookingType: 1,
+                    canBuyQuantity: 1,
+                    cityList: null,
+                    deductibleAmount: null,
+                    endTime: 1508601599000,
+                    itemPromotion: true,
+                    itemPromotionId: 2844,
+                    itemPromotionName: null,
+                    national: null,
+                    nowDate: 1508485270142,
+                    numberConditions: 3,
+                    offeredNumber: 3,
+                    pendingTime: null,
+                    promotion: null,
+                    promotionPrice: null,
+                    promotionStock: 200,
+                    promotionType: 28,
+                    promotionTypeName: "拼团",
+                    redstarSpecial: 0,
+                    remainingStock: 196,
+                    requireBooking: false,
+                    skuId: "20319757",
+                    skuImgUrl: null,
+                    skuName: null,
+                    skuPrice: null,
+                    skuPromotionPrice: 0.79,
+                    skuStock: null,
+                    startTime: 1508428800000,
+                    status: 3,
+                    statusDesc: "进行中",
+                    totalInventory: null,
+                    userIsBooking: null,
+                    userIsBuying: false,
+                    userLimitAmount: 1,
+                }
+            },
+            "ok": true
+        }
+        dataInit(goodsData)
+    </script>
 </body>
+
 </html>

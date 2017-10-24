@@ -1,53 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>web worker</title>
 </head>
+
 <body>
 
-JavaScript多线程  web worker 测试 .
-移动端兼容较好,可以使用在倒计时部分.
-防止touchmove,scroll 阻塞事件队列.
+    JavaScript多线程 web worker 测试 . 移动端兼容较好,可以使用在倒计时部分. 防止touchmove,scroll 阻塞事件队列.
 
 
 
-<h1>web worker 返回:</h1>
-<h3 class="info"></h3>
-<script id="worker" >//type="app/worker">
+    <h1>web worker 返回:</h1>
+    <h3 class="info"></h3>
+    <script id="worker">
+        //type="app/worker">
 
-            addEventListener('message', function(e) {
-                console.log('收到请求',JSON.stringify(e.data))
-                let time = parseInt((e.data.end-e.data.start)/1000)
+        addEventListener('message', function(e) {
+            console.log('收到请求', JSON.stringify(e.data))
+            let time = parseInt((e.data.end - e.data.start) / 1000)
 
-                setInterval(()=>{
-                    time = time - 1
-                    postMessage(time);
-                },1000)
+            setInterval(() => {
+                time = time - 1
+                postMessage(time);
+            }, 1000)
+        }, false);
+    </script>
+
+    <script>
+        (function() {
+            // Blob(blobParts[, options]) 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+            var blob = new Blob([document.querySelector('#worker').textContent]);
+            // createObjectURL ie9以上随便使用
+            var url = window.URL.createObjectURL(blob);
+
+            var worker = new Worker(url); // url其实是类似一个get请求，可以是同域名下的某个文件（类似Apache的www目录下），也可以是cdn？
+
+            worker.addEventListener('message', function(e) {
+                console.log('收到返回', JSON.stringify(e.data));
+                document.querySelector('.info').innerHTML = e.data
             }, false);
 
-        </script>
-
-<script>
-    (function() {
-
-        var blob = new Blob([document.querySelector('#worker').textContent]);
-
-        var url = window.URL.createObjectURL(blob);
-
-        var worker = new Worker(url);// url其实是类似一个get请求，可以是同域名下的某个文件（类似Apache的www目录下），也可以是cdn？
-
-        worker.addEventListener('message', function(e) {
-            console.log('收到返回',JSON.stringify(e.data));
-            document.querySelector('.info').innerHTML=e.data
-        }, false);
-
-//        worker.postMessage('发送请求');
-        worker.postMessage({
-            start: 1503573420767 ,
-            end: 1503873420767,
-        })
-    })();
-</script>
+            //        worker.postMessage('发送请求');
+            worker.postMessage({
+                start: 1503573420767,
+                end: 1503873420767,
+            })
+        })();
+    </script>
 </body>
+
 </html>
