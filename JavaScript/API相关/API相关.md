@@ -45,3 +45,9 @@ document.querySelector('xxxx').offsetHeight 可视区域高度 内容高+padding
 document.querySelector('xxxx').scrollHeight 真实高度 整个元素的高度（包括带滚动条的隐蔽的地方） 
 
 document.querySelector('xxxx').clientHeight 可视区域高度 内容的可视高度（不包括边框，边距或滚动条）
+
+
+
+### 移动端事件顺序
+
+- 同一个区域点: touchstart > touchend > click
