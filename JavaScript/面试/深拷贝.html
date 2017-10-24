@@ -17,7 +17,7 @@
                 price: 100
             }
         }
-<<<<<<< HEAD
+
         var promotion = {
             price: 200
         }
@@ -223,13 +223,6 @@
             let groupDivPercentage
             let groupStatus
             let groupStatusColor
-=======
-    }
-    // 一般来说，使用JSON转换可以得到期望的效果，但是对于JSON格式本身不支持的格式，是无非转换的，比如函数
-    console.log(JSON.stringify(data))
-    document.querySelector('.one').innerHTML = JSON.stringify(data)
-    document.querySelector('.two').innerHTML = JSON.stringify(JSON.parse(JSON.stringify(data)));
->>>>>>> 27bab572b311dd8395ee9db0de95bd1954ef98cf
 
             if (goodsData && goodsData.promotion.promotionType == 28) {
                 status = Math.round(goodsData.promotion.offeredNumber / goodsData.promotion.numberConditions * 100)
