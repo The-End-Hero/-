@@ -46,8 +46,27 @@ document.querySelector('xxxx').scrollHeight 真实高度 整个元素的高度�
 
 document.querySelector('xxxx').clientHeight 可视区域高度 内容的可视高度（不包括边框，边距或滚动条）
 
+![img](http://www.w3cplus.com/sites/default/files/blogs/2017/1707/vw-layout-4.png)
+
 
 
 ### 移动端事件顺序
 
 - 同一个区域点: touchstart > touchend > click
+
+
+
+### 位运算相关
+
+```javascript
+Array.prototype.forEach.call(document.querySelectorAll('*'), dom = >dom.style.outline = `1px solid#$ {
+    parseInt(Math.random() * Math.pow(2, 24)).toString(16)
+}`)
+
+[].forEach.call($$("*"),function(a){
+    a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)
+})
+
+// parseInt  等价于 ~~
+```
+
