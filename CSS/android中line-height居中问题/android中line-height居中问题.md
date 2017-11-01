@@ -5,7 +5,7 @@
   - 使用transform:scale缩放（不影响其他布局）（实测rem中，缩放）
   - 使用zoom缩放，印象其他布局，实际上会比较容易些（实测rem中，不缩放）
 
-- Line-height 设置为0，用padding撑开
+- Line-height 设置为0，用padding撑开（亲测解决部分安卓机型的居中）
 
 
 
