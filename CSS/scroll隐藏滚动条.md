@@ -4,7 +4,7 @@
 
 ```scss
 overflow: hidden;
-white-space: nowrap;//（否则不会在同一行内）
+white-space: nowrap;//（否则不会在同一行内,只有在横向滚动时需要）
 ```
 
 
