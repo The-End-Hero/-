@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div {
+            max-height: 300px;
+            overflow-y: scroll
+        }
+    </style>
+</head>
+
+<body>
+    <button>新增</button>
+    <div id="div"></div>
+</body>
+<script>
+    const div = document.getElementById('div')
+    const button = document.querySelector('button')
+    button.onclick = function() {
+        const data = '<h1>123</h1>'
+        div.innerHTML += data
+        div.scrollTop = div.scrollHeight
+    }
+</script>
+
+</html>
