@@ -39,10 +39,19 @@ async function getABC() {
 每次遇到 await 关键字时，Promise 都会停下在，一直到运行结束，所以总共花费是 2+4+3 = 9 秒。**await 把异步变成了同步**。
 
 ```javascript
+var getValueA = Promise.resolve(3);
+var getValueB = 1337;
+var getValueC = new Promise((resolve, reject) => {
+  console.log(resolve, 'resolve')
+  setTimeout(resolve, 10000, {
+    code: 200,
+    data: null
+  });
+});
 async function getABC() {
   // Promise.all() 允许同时执行所有的异步函数
   let results = await Promise.all([ getValueA, getValueB, getValueC ]); 
-// 注意测试不要用setTimeout，返回值必定会是一个number数值。
+// 注意测试不要直接用setTimeout，返回值必定会是一个number数值。使用promise封装的setTimeout。
   return results.reduce((total,value) => total * value);
 }
 // reduce 函数使用
