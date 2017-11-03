@@ -42,8 +42,8 @@ async function getABC() {
 async function getABC() {
   // Promise.all() 允许同时执行所有的异步函数
   let results = await Promise.all([ getValueA, getValueB, getValueC ]); 
-
-  return results.reduce((total,value) => total * value);
+// 注意测试不要用setTimeout，返回值必定会是一个number数值。
+  return results.reduce((total,value) => total * value);
 }
 // reduce 函数使用
 ```
