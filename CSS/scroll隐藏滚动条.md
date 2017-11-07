@@ -34,3 +34,4 @@ vertical-align: top;
 
 
 
+-webkit-overflow-scrolling : touch; //弹性滚动，大部分安卓已经是该效果，主要针对ios端
