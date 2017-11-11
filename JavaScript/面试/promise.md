@@ -26,7 +26,7 @@ console.log(4)
 
 ```
 
-解释：Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的。
+解释：**Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的**。
 
 ## 题目二
 
@@ -56,7 +56,7 @@ Promise { 'success' }
 
 ```
 
-解释：promise 有 3 种状态：pending、fulfilled 和 rejected。状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变。
+解释：**promise 有 3 种状态：pending、fulfilled 和 rejected。状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变。**
 
 ## 题目三
 
@@ -83,7 +83,7 @@ then: success1
 
 ```
 
-解释：构造函数中的 resolve 或 reject 只有第一次执行有效，多次调用没有任何作用，呼应代码二结论：promise 状态一旦改变则不能再变。
+解释：构造函数中的 resolve 或 reject 只有第一次执行有效，多次调用没有任何作用，呼应代码二结论：**promise 状态一旦改变则不能再变**。
 
 ## 题目四
 
@@ -109,7 +109,7 @@ Promise.resolve(1)
 
 ```
 
-解释：promise 可以链式调用。提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。promise 每次调用 .then 或者 .catch 都会返回一个新的 promise，从而实现了链式调用。
+解释：promise 可以链式调用。提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。**promise 每次调用 .then 或者 .catch 都会返回一个新的 promise**，从而实现了链式调用。
 
 ## 题目五
 
@@ -136,10 +136,9 @@ promise.then((res) => {
 once
 success 1005
 success 1007
-
 ```
 
-解释：promise 的 .then 或者 .catch 可以被调用多次，但这里 Promise 构造函数只执行一次。或者说 promise 内部状态一经改变，并且有了一个值，那么后续每次调用 .then 或者 .catch 都会直接拿到该值。
+解释：promise 的 .then 或者 .catch 可以被调用多次，但这里 Promise 构造函数只执行一次。**或者说 promise 内部状态一经改变，并且有了一个值，那么后续每次调用 .then 或者 .catch 都会直接拿到该值。**
 
 ## 题目六
 
@@ -165,7 +164,7 @@ then: Error: error!!!
 
 ```
 
-解释：.then 或者 .catch 中 return 一个 error 对象并不会抛出错误，所以不会被后续的 .catch 捕获，需要改成其中一种：
+解释：**.then 或者 .catch 中 return 一个 error 对象并不会抛出错误，所以不会被后续的 .catch 捕获，需要改成其中一种：**
 
 1. return Promise.reject(new Error('error!!!'))
 2. throw new Error('error!!!')
@@ -193,7 +192,7 @@ TypeError: Chaining cycle detected for promise #<Promise>
     at bootstrap_node.js:607:3
 ```
 
-解释：.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。类似于：
+解释：**.then 或 .catch 返回的值不能是 promise 本身，否则会造成死循环。**类似于：
 
 ```javascript
 process.nextTick(function tick () {
@@ -218,7 +217,7 @@ Promise.resolve(1)
 
 ```
 
-解释：.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透。
+解释：**.then 或者 .catch 的参数期望是函数，传入非函数则会发生值穿透。**
 
 ## 题目九
 
@@ -240,10 +239,9 @@ Promise.resolve()
 fail2: Error: error
     at success (...)
     at ...
-
 ```
 
-解释：.then 可以接收两个参数，第一个是处理成功的函数，第二个是处理错误的函数。.catch 是 .then 第二个参数的简便写法，但是它们用法上有一点需要注意：.then 的第二个处理错误的函数捕获不了第一个处理成功的函数抛出的错误，而后续的 .catch 可以捕获之前的错误。当然以下代码也可以：
+解释：.then 可以接收**两个参数**，第一个是处理成功的函数，第二个是处理错误的函数。.catch 是 .then 第二个参数的简便写法，但是它们用法上有一点需要注意**：.then 的第二个处理错误的函数捕获不了第一个处理成功的函数抛出的错误，而后续的 .catch 可以捕获之前的错误。**当然以下代码也可以：
 
 ```javascript
 Promise.resolve()
@@ -283,4 +281,4 @@ then
 setImmediate
 ```
 
-解释：process.nextTick 和 promise.then 都属于 microtasks，而 setImmediate 属于 macrotasks，在事件循环的 check 阶段执行。事件循环的每个阶段（macrotasks）之间都会执行 microtasks，事件循环的开始会先执行一次 microtasks。
+解释：process.nextTick 和 promise.then 都属于 microtasks，而 setImmediate 属于 macrotasks，在事件循环的 check 阶段执行。**事件循环的每个阶段（macrotasks）之间都会执行 microtasks**(task and job)，事件循环的开始会先执行一次 microtasks。
