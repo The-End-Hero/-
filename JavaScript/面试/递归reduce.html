@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const data = {
+        $children: [{$refs: {}}, {
+            $children: [{
+                $refs: {
+                    aaa66: 5,
+                    aaa3: 6,
+                    aaa4: 7,
+                    aaa7: 8
+                }
+            }, {$refs: {}}, {$children: [{$refs: {aaa: 1, aaa3: 2, aaa4: 3, aaa7: 4}}]}]
+        }]
+    };
+    const isArray = function (o) {
+        return Object.prototype.toString.call(o) == '[object Array]';
+    };
+    const re = function (a) {
+        return a.reduce((_p, _c) => {
+            return Object.assign(_p, isArray(_c.$children) ? re(_c.$children) : _c);
+        }, {});
+    };
+    const a = Object.keys(data).map(key => {
+        return data[key].reduce((p, c) => {
+            return Object.assign(p, c.$children && isArray(c.$children) ? re(c.$children) : c);
+        }, {});
+    });
+    console.log(a[0]);
+    const b = Object.keys(a[0]).map(key => {
+        return Object.keys(a[0][key]).filter(it => it.includes('aaa')).map(item => a[0][key][item]);
+    });
+    console.log(b);
+
+
+
+</script>
+</body>
+</html>
