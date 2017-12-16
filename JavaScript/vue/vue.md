@@ -39,6 +39,8 @@ components 组件，template中写法差异
 methods  函数方法对象
 
 
-
 ```
 
+template中计算属性有妙用（表单验证）
+
+date-select组件点击外部，改变组件内部状态，自定义指令（ele-ui的原理也是如此）
