@@ -19,6 +19,10 @@ Await - 暂停异步函数的执行 (var result = await someAsyncCall();)
 - await **只能**和 Promise 一起使用，**不能**和 callback 一起使用
 - await **只能**用在 async 函数中
 
+备注：
+
+- 尤雨溪的同构即在组件上挂载静态async方法，在routeronready钩子函数中执行该函数进行数据获取。
+
 ## 2、Async/Await 是否会取代 Promise
 
 不会。
@@ -61,4 +65,4 @@ async function getABC() {
 
 ## 3、Async/Await 的错误处理
 
-在 Async/Await 语法中，我们可以使用 try/catch 进行错误处理。在 Promise 中的 .catch() 分支会进入 catch 语句。
+在 Async/Await 语法中，我们可以使用 try/catch 进行错误处理。在 Promise 中的 .catch() 分支会进入 catch 语句。(注意两者的区别)
