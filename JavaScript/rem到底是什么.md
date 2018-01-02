@@ -36,5 +36,8 @@ p {width: 2rem} /*64px*/
 
 
 
-
 http://www.w3cplus.com/css/vw-for-layout.html 再聊移动端页面的适配
+
+
+
+### rem实质上是vw/vh兼容不好的时候的替代方案
