@@ -160,3 +160,8 @@ document.documentElement.clientHeight ==> 页面对象高度（即BODY对象高�
 滚动到顶部 window.scrollTo(0,0)
 滚动到尾部 window.scrollTo(0,document.body.clientHeight) 
 ```
+
+
+
+
+### contextmenu + preventDefault自定义右键菜单
