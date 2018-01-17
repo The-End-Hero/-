@@ -1,0 +1,13 @@
+{
+  "name": "macaw-cl",
+  "version": "1.0.0",
+  "description": "我的cli",
+  "bin": {
+    "macaw": "./bin/macaw.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "commander": "^2.13.0",
+    "glob": "^7.1.2"
+  }
+}
