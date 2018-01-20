@@ -78,6 +78,65 @@ const chalk = require('chalk')
 const logSymbols = require('log-symbols')
 const generator = require('../lib/generator')
 
+/*
+ * 复制目录、子目录，及其中的文件
+ * @param src {String} 要复制的目录
+ * @param dist {String} 复制到目标目录
+ */
+function copyDir(src, dist, callback) {
+    fs.access(dist, function(err){
+        if(err){
+            // 目录不存在时创建目录
+            fs.mkdirSync(dist);
+        }
+        _copy(null, src, dist);
+    });
+
+    function _copy(err, src, dist) {
+        if(err){
+            callback(err);
+        } else {
+            fs.readdir(src, function(err, paths) {
+                if(err){
+                    callback(err)
+                } else {
+                    paths.forEach(function(path) {
+                        var _src = src + '/' +path;
+                        var _dist = dist + '/' +path;
+                        fs.stat(_src, function(err, stat) {
+                            if(err){
+                                callback(err);
+                            } else {
+                                // 判断是文件还是目录
+                                if(stat.isFile()) {
+                                    fs.writeFileSync(_dist, fs.readFileSync(_src));
+                                } else if(stat.isDirectory()) {
+                                    // 当是目录是，递归复制
+                                    copyDir(_src, _dist, callback)
+                                }
+                            }
+                        })
+                    })
+                }
+            })
+        }
+    }
+}
+function deleteall(path) {
+    var files = [];
+    if(fs.existsSync(path)) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file, index) {
+            var curPath = path + "/" + file;
+            if(fs.statSync(curPath).isDirectory()) { // recurse
+                deleteall(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
+};
 function go () {
     // 预留，处理子命令
     // console.log(path.resolve(process.cwd(), path.join('.', rootName)))
@@ -134,12 +193,22 @@ function go () {
         // console.log(context,'generator-之前')
         // 添加生成的逻辑
         return generator(context.metadata, context.root,undefined,context)
+    }).then(context =>{
+        console.log(context,'context')
+        return copyDir('./'+context.root+'/.download-temp', './'+context.root, function(err){
+            if(err){
+                console.log(err);
+            }else {
+                console.log('qqqqqq')
+            }
+        })
     }).then(context => {
         // console.log(context,'context111')
         // 成功用绿色显示，给出积极的反馈
         console.log(logSymbols.success, chalk.green('创建成功:)'))
         console.log()
         console.log(chalk.green('cd ' + context.root + '\nnpm install\nnpm run dev'))
+        // deleteall('./'+context.root+'/.download-temp')
     }).catch(error => {
         // 失败了用红色，增强提示
         console.error(logSymbols.error, chalk.red(`创建失败：${error.message}`))
