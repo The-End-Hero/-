@@ -193,17 +193,21 @@ function go () {
         // console.log(context,'generator-之前')
         // 添加生成的逻辑
         return generator(context.metadata, context.root,undefined,context)
-    }).then(context =>{
-        console.log(context,'context')
-        return copyDir('./'+context.root+'/.download-temp', './'+context.root, function(err){
-            if(err){
-                console.log(err);
-            }else {
-                console.log('qqqqqq')
-            }
-        })
-    }).then(context => {
-        // console.log(context,'context111')
+    })
+    //     .then(context =>{
+    //     console.log(context,'context')
+    //     return copyDir('./'+context.root+'/.download-temp', './'+context.root, function(err){
+    //         if(err){
+    //             console.log(err);
+    //         }else {
+    //             console.log('qqqqqq')
+    //         }
+    //     })
+    // })
+        .then(context => {
+            const fse = require('fs-extra')
+            fse.moveSync('./'+context.root+'/.download-temp', './'+context.root+'1', { overwrite: true })
+            fse.moveSync('./'+context.root+'1', './'+context.root, { overwrite: true })
         // 成功用绿色显示，给出积极的反馈
         console.log(logSymbols.success, chalk.green('创建成功:)'))
         console.log()
