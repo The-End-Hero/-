@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>测试Validator</title>
-    <script src="./index-0.js"></script>
+    <script src="./src/validator-wxp.js"></script>
 </head>
 <body>
 <form name="example_form" action="#" method="POST" class="form-horizontal">
@@ -51,16 +51,6 @@
     <button class="btn-default" type="submit" name="submit">提交按钮</button>
 </form>
 <script>
-//    var v = new Validator()
-//    console.log(v, 'v')
-//    console.log(v.prototype, 'v')
-//    console.log(v.isPhone('ssss'))
-//    console.log(v.isPhone('15805154141'))
-//    console.log(v.same('15805154141', '2'))
-//    console.log(v.same('15805154141', 15805154141))
-//    console.log(v.same('15805154141', '15805154141'))
-
-
     console.log('-----分割线-----')
     var a = new Validator('example_form', [
         {
@@ -98,7 +88,9 @@
         console.log(obj,'obj');
         console.log(obj.errors,'obj');
     })
-
+    function blurValidate(){
+        a.validate()
+    }
 </script>
 </body>
 </html>

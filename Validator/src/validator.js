@@ -1,29 +1,7 @@
-// (function(f) {
-//     if (typeof exports === "object" && typeof module !== "undefined") {
-//         module.exports = f();
-//     } else if (typeof define === "function" && define.amd) {
-//         define([], f);
-//     } else {
-//         var g;
-//         if (typeof window !== "undefined") {
-//             g = window;
-//         } else if (typeof global !== "undefined") {
-//             g = global;
-//         } else if (typeof self !== "undefined") {
-//             g = self;
-//         } else {
-//             g = this;
-//         }
-//         g.Validator = f();
-//     }
-// })(function () {
-//
-//
-//
-//
-//
+// 自执行函数 闭包 避免作用于污染
+// 方案优雅降级
 
-let regexs = {
+var regexs = {
     // 匹配 max_length(12) => ["max_length",12]
     rule: /^(.+?)\((.+)\)$/,
     // 数字
@@ -68,7 +46,7 @@ let regexs = {
     chinese: /^[\u0391-\uFFE5]+$/,
     percent: /^(?:[1-9][0-9]?|100)(?:\.[0-9]{1,2})?$/
 }
-let _testHook = {
+var _testHook = {
     // 验证合法邮箱
     is_email: function (field) {
         return regexs.email.test(backVal(field));
@@ -145,24 +123,32 @@ let _testHook = {
         return "YES" == value.toUpperCase() || "ON" == value.toUpperCase() || 1 == value || false == value ? true : false;
     }
 }
+/**
 
-function Validator(formelm, fields, callback) {
-    console.log(formelm, 'formelm')
-    console.log(fields, 'fields')
-    console.log(callback, 'callback')
-    console.log(this, 'this')
+ * 表单验证函数
+ * @constructor
+ * @param {string} 表单form元素name/id
+ * @param {array} 表单验证规则
+ * @param {function} 回调函数
+
+ */
+var Validator = function (formelm, fields, callback) {
+    // console.log(formelm, 'formelm')
+    // console.log(fields, 'fields')
+    // console.log(callback, 'callback')
+    // console.log(this, 'this')
 
     // 将验证方法绑到 Validator 对象上去
     for (var a in _testHook) this[camelCase(a)] = _testHook[a];
     this.callback = callback || function () {
     };
-    this.form = _formElm(formelm) || {};
-    console.log(this.form, 'this.form')
+    // console.log(this.form, 'this.form')
     this.errors = [];
     this.fields = {};
     this.handles = {};
     // 如果不存在 form 对象
     if (!formelm) return this;
+    this.form = _formElm(formelm) || {};
     for (var i = 0, fieldLength = fields.length; i < fieldLength; i++) {
         var field = fields[i];
         // 如果通过不正确，我们需要跳过该领域。
@@ -176,10 +162,10 @@ function Validator(formelm, fields, callback) {
     var _onsubmit = this.form.onsubmit;
     this.form.onsubmit = function (that) {
         return function (evt) {
-            console.log(1)
+            // console.log(1)
             try {
-                console.log(2)
-                console.log(_onsubmit, '_onsubmit')
+                // console.log(2)
+                // console.log(_onsubmit, '_onsubmit')
                 return that.validate(evt) && (_onsubmit === undefined || _onsubmit());
             } catch (e) {
                 console.log(e)
@@ -189,7 +175,6 @@ function Validator(formelm, fields, callback) {
 
 
 }
-
 Validator.prototype = {
     /**
      * [_validator 在提交表单时进行验证。或者直接调用validate]
@@ -234,7 +219,8 @@ Validator.prototype = {
         return this;
     },
     _validateField: function (field) {
-        var rules = field.rules.split("|"), isEmpty = !field.value || field.value === "" || field.value === undefined;
+        var rules = field.rules.split("|"),
+            isEmpty = !field.value || field.value === "" || field.value === undefined;
         for (var i = 0, ruleLength = rules.length; i < ruleLength; i++) {
             var method = rules[i];
             var parts = regexs.rule.exec(method);
@@ -277,7 +263,7 @@ Validator.prototype = {
         }
         return this;
     }
-}
+};
 
 /**
  * [attributeValue 获取节点对象的属性]
@@ -352,5 +338,5 @@ function addField(self, field, nameValue) {
     }
 }
 
-// return Validator
-// })
+return Validator;
+

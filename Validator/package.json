@@ -1,0 +1,33 @@
+{
+  "name": "validator-wxp",
+  "version": "1.0.6",
+  "description": "简单轻量级JS表单验证，独立字符串验证。",
+  "main": "dist/validator.js",
+  "scripts": {
+    "build": "npm run build:min && npm run build:dist",
+    "build:dist": "umd Validator src/validator.js | bannerjs -m | uglifyjs -b beautify=true --comments 'all'  > dist/validator.js ",
+    "build:min": "umd Validator src/validator.js | uglifyjs -mc | bannerjs -o > dist/validator.min.js",
+    "clean": "rm -rf dist/validator*.js",
+    "watch": "onchange 'src/validator.js' -v -- npm run build"
+  },
+  "devDependencies": {
+    "bannerjs": "^1.0.5",
+    "onchange": "^3.2.1",
+    "uglify-js": "^3.1.0",
+    "umd": "^3.0.1"
+  },
+  "keywords": [
+    "validator",
+    "validator.js",
+    "validator-wxp",
+    "validation",
+    "validate",
+    "sanitization",
+    "sanitize",
+    "sanitisation",
+    "sanitise",
+    "assert"
+  ],
+  "author": "xiping.wang",
+  "license": "MIT"
+}
