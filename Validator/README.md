@@ -10,4 +10,29 @@ Step1:
 
 Step2:
 
-- in you want to use JS file && import Validator from 'validator-wxp'
+- in you want to use JS file 
+
+- just for string
+
+  ```javascript
+  // just for string
+  import Validator from 'validator-wxp'
+  var v = new Validator()
+  v.isPhone('sss') // false
+  ```
+
+- for form validation
+
+  ```javascript
+  import Validator from 'validator-wxp'
+  var v = new Validator('form_name',[
+      name:"alphanumeric", // form内部表单元素name
+  	display:"字数小于5个字符|大于15个字符", // 错误提示
+      rules: 'min_length(5)|max_length(15)' // 需要的规则
+  ],function(evt, obj){
+      // if get error--> obj.errors.length>0
+  })
+
+  ```
+
+  ​
