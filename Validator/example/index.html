@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>测试Validator</title>
-    <script src="./src/validator-wxp.js"></script>
+    <style>
+        p{
+            color: red;
+        }
+    </style>
+    <script src="../dist/validator.js"></script>
 </head>
 <body>
 <form name="example_form" action="#" method="POST" class="form-horizontal">
@@ -11,31 +16,37 @@
     <div class="form-group">
         <label for="req">必填字段:</label>
         <input type="text" name="req" id="req" class="form-control" placeholder="必填" onblur="blurValidate()">
+        <p data-error="req"></p>
     </div>
 
     <div class="form-group">
         <label for="alphanumeric">文字字数:</label>
         <input type="text" name="alphanumeric" id="alphanumeric" class="form-control" placeholder="字数大于5，小于15">
+        <p data-error="alphanumeric"></p>
     </div>
 
     <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" class="form-control" placeholder="验证是否为Email">
+        <p data-error="email"></p>
     </div>
 
     <div class="form-group">
         <label for="passworld">密码:</label>
         <input type="passworld" name="passworld" id="passworld" class="form-control" placeholder="输入密码">
+        <p data-error="passworld"></p>
     </div>
 
     <div class="form-group">
         <label for="repassworld">确认密码:</label>
         <input type="repassworld" name="repassworld" id="repassworld" class="form-control" placeholder="输入密码">
+        <p data-error="repassworld"></p>
     </div>
 
     <div class="form-group">
         <label for="minlength">字符长度判断:</label>
         <input type="text" name="minlength" id="minlength" class="form-control" placeholder="至少输入8个字符">
+        <p data-error="minlength"></p>
     </div>
 
     <div class="cleanfix"></div>
@@ -87,6 +98,24 @@
         console.log(evt,'evt');
         console.log(obj,'obj');
         console.log(obj.errors,'obj');
+        var errors_elm = document.getElementById('error_msg');
+        errors_elm.style.display = 'none';
+        if(obj.errors.length>0){
+            // 判断是否错误
+//            var error_str = '';
+//            for (var i = 0; i < obj.errors.length; i++) {
+//                error_str += i+1 + ':' + obj.errors[i].message + '；<br/>';
+//            }
+//            errors_elm.style.display = "block";
+//            errors_elm.innerHTML = error_str;
+            for (var i = 0; i < obj.errors.length; i++) {
+                let error_info =  obj.errors[i].message
+                if(document.querySelector('[data-error="'+obj.errors[i].id+'"]')){
+                    document.querySelector('[data-error="'+obj.errors[i].id+'"]').innerHTML = error_info
+                    return false
+                }
+            }
+        }
     })
     function blurValidate(){
         a.validate()

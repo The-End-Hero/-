@@ -31,8 +31,14 @@ Step2:
       rules: 'min_length(5)|max_length(15)' // 需要的规则
   ],function(evt, obj){
       // if get error--> obj.errors.length>0
+    	// 你所需要的dom操作，如显示在什么元素内，页面滚动等
   })
+  // 支持onblur等事件调用验证函数 blurValidate()
+  function blurValidate(){
+  	v.validate()
+  }
 
   ```
 
   ​
+
