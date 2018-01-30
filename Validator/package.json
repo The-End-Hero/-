@@ -1,6 +1,6 @@
 {
   "name": "validator-wxp",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "简单轻量级JS表单验证，独立字符串验证。",
   "main": "dist/validator.js",
   "scripts": {
