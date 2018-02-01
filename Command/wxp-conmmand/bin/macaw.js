@@ -9,4 +9,4 @@ program.version('1.0.0')
     .parse(process.argv)
 
 
-console.log(' args: %j', program.args);
+// console.log(' args: %j', program.args);

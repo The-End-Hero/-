@@ -22,26 +22,6 @@ if (!projectName) {  // project-name 必填
 
 const list = glob.sync('*')  // 遍历当前目录
 let rootName = path.basename(process.cwd())
-// console.log(rootName,'rootName')
-// if (list.length) {  // 如果当前目录不为空
-//     if (list.filter(name => {
-//             const fileName = path.resolve(process.cwd(), path.join('.', name))
-//             console.log(fileName,'fileName')
-//             console.log(fs.statSync(fileName),'fs.stat(fileName)')
-//             const isDir = fs.statSync(fileName).isDirectory()
-//             return name.indexOf(projectName) !== -1 && isDir
-//         }).length !== 0) {
-//         console.log(`项目${projectName}已经存在`)
-//         return
-//     }
-//     rootName = projectName
-// } else if (rootName === projectName) {
-//     rootName = '.'
-// } else {
-//     rootName = projectName
-// }
-
-
 const inquirer = require('inquirer')
 // const list = glob.sync('*')
 
@@ -78,65 +58,7 @@ const chalk = require('chalk')
 const logSymbols = require('log-symbols')
 const generator = require('../lib/generator')
 
-/*
- * 复制目录、子目录，及其中的文件
- * @param src {String} 要复制的目录
- * @param dist {String} 复制到目标目录
- */
-function copyDir(src, dist, callback) {
-    fs.access(dist, function(err){
-        if(err){
-            // 目录不存在时创建目录
-            fs.mkdirSync(dist);
-        }
-        _copy(null, src, dist);
-    });
 
-    function _copy(err, src, dist) {
-        if(err){
-            callback(err);
-        } else {
-            fs.readdir(src, function(err, paths) {
-                if(err){
-                    callback(err)
-                } else {
-                    paths.forEach(function(path) {
-                        var _src = src + '/' +path;
-                        var _dist = dist + '/' +path;
-                        fs.stat(_src, function(err, stat) {
-                            if(err){
-                                callback(err);
-                            } else {
-                                // 判断是文件还是目录
-                                if(stat.isFile()) {
-                                    fs.writeFileSync(_dist, fs.readFileSync(_src));
-                                } else if(stat.isDirectory()) {
-                                    // 当是目录是，递归复制
-                                    copyDir(_src, _dist, callback)
-                                }
-                            }
-                        })
-                    })
-                }
-            })
-        }
-    }
-}
-function deleteall(path) {
-    var files = [];
-    if(fs.existsSync(path)) {
-        files = fs.readdirSync(path);
-        files.forEach(function(file, index) {
-            var curPath = path + "/" + file;
-            if(fs.statSync(curPath).isDirectory()) { // recurse
-                deleteall(curPath);
-            } else { // delete file
-                fs.unlinkSync(curPath);
-            }
-        });
-        fs.rmdirSync(path);
-    }
-};
 function go () {
     // 预留，处理子命令
     // console.log(path.resolve(process.cwd(), path.join('.', rootName)))
@@ -194,16 +116,6 @@ function go () {
         // 添加生成的逻辑
         return generator(context.metadata, context.root,undefined,context)
     })
-    //     .then(context =>{
-    //     console.log(context,'context')
-    //     return copyDir('./'+context.root+'/.download-temp', './'+context.root, function(err){
-    //         if(err){
-    //             console.log(err);
-    //         }else {
-    //             console.log('qqqqqq')
-    //         }
-    //     })
-    // })
         .then(context => {
             const fse = require('fs-extra')
             fse.moveSync('./'+context.root+'/.download-temp', './'+context.root+'1', { overwrite: true })
