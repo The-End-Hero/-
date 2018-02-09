@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slider组件</title>
+    <script src="./slider-wxp.js"></script>
+    <style>
+        img{
+            /*display: block;*/
+        }
+        .slider-wxp-img{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 600px;
+            transition: opacity 0.3s;
+        }
+        #wxp .slider-wxp-div{
+            position: relative;
+            height: 225px;
+            width: 600px;
+            overflow: hidden;
+        }
+        #wxp123 .slider-wxp-div {
+            position: relative;
+            height: 375px;
+            width: 600px;
+            overflow: hidden;
+        }
+        /*.slider-wxp-ul{*/
+            /*width: 1600px;*/
+            /*height: 150px;*/
+            /*!*overflow: hidden;*!*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="wxp"></div>
+<div id="wxp123"></div>
+<script>
+    var slider = new SilderWxp({
+        id: '#wxp',
+        current:0,
+        list: [
+            {imgurl:'https://i1.mifile.cn/a4/xmad_15177518079012_IqLsA.jpg'},
+            {imgurl:'https://i1.mifile.cn/a4/xmad_15127346194467_akKwp.jpg'},
+            {imgurl:'https://i1.mifile.cn/a4/xmad_15180923320139_phgQK.jpg'},
+            {imgurl:'https://i1.mifile.cn/a4/xmad_15177365994442_hrdao.jpg'},
+        ]
+    })
+    slider.init()
+
+
+    var slider123 = new SilderWxp({
+        id: '#wxp123',
+        current:0,
+        list: [
+            {imgurl:'https://i1.mifile.cn/f/i/17/minote3/index_gallery_1.jpg?'},
+            {imgurl:'https://i1.mifile.cn/f/i/17/minote3/index_gallery_2.jpg?'},
+            {imgurl:'https://i1.mifile.cn/f/i/17/minote3/index_gallery_3.jpg?'},
+            {imgurl:'https://i1.mifile.cn/f/i/17/minote3/index_gallery_4.jpg?'},
+        ]
+    })
+    slider123.init()
+</script>
+</body>
+</html>
