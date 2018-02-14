@@ -43,14 +43,33 @@ var obj = new MyClass();
 alert(obj.name); // 输出:sven
 
 // 如果构造器显式地返回了一个 object 类型的对象(只有这种情况)，那么此次运算结果最终会返回这个对象，而不是我们之前期待的 this
-var MyClass = function(){
+var MyClass = function () {
     this.name = 'sven';
     return { // 显式地返回一个对象
-        name: 'anne' }
+        name: 'anne'
+    }
 };
 var obj = new MyClass();
-alert ( obj.name ); // 输出:anne
+alert(obj.name); // 输出:anne
 
-// 4.Function.prototype.call 或 Function.prototype.apply 调用
+// 4.Function.prototype.call 或 Function.prototype.apply 调用  可以动态的改变传入函数的this
+
+var obj1 = {
+    name: 'sven',
+    getName: function () {
+        return this.name;
+    }
+};
+var obj2 = {
+    name: 'anne'
+}
+console.log(obj1.getName())
+console.log(obj1.getName.call(obj2))
+
+// 方应杭 https://zhuanlan.zhihu.com/p/23804247
+// this 就是你 call 一个函数时，传入的第一个参数。（请务必背下来「this 就是 call 的第一个参数」）
+// 如果你的函数调用形式不是 call 形式，请按照「转换代码」将其转换为 call 形式。
+
+
 
 
