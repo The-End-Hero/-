@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    /**
+     * bind() 方法会创建一个新函数。
+     * 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。(来自于 MDN )
+     * @param context
+     * @returns {fBound}
+     */
+    Function.prototype.bind2 = function (context) {
+
+        if (typeof this !== "function") {// 判断bind2调用者是不是函数，如果不是-->报错
+            throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
+        }
+
+        var self = this;
+        var args = Array.prototype.slice.call(arguments, 1);// 获取bind2函数从第二个参数到最后一个参数
+
+        var fNOP = function () {};
+
+        var fBound = function () {
+
+            var bindArgs = Array.prototype.slice.call(arguments);// 获取bind2函数参数
+            return self.apply(this instanceof fNOP ? this : context, args.concat(bindArgs)); // instanceof的普通的用法，this instanceof fNOP 检测fNOP.prototype是否存在于参数this
+        }
+
+        fNOP.prototype = this.prototype;
+        fBound.prototype = new fNOP();
+        return fBound;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    /**
+     * @param {number} x
+     * @return {number}
+     */
+    var reverse = function (x) {
+        var max = Math.pow(2, 31) - 1;
+        var min = -Math.pow(2, 31);
+        console.log(min, max)
+//        if (x > max || x < min) {
+//            return 0
+//        } else {
+        var str = x.toString()
+        if (str[0] == '-') {
+            var res = []
+            for (var i = 1; i < str.length; i++) {
+                res.unshift(str[i])
+            }
+            var end = Number('-' + res.join().replace(/,/g, ''))
+            if (end > max || end < min) {
+                return 0
+            } else {
+                return end
+            }
+        } else {
+            var res = []
+            for (var i = 0; i < str.length; i++) {
+                res.unshift(str[i])
+            }
+            console.log(res)
+            var end = Number(res.join().replace(/,/g, ''))
+            if (end > max || end < min) {
+                return 0
+            } else {
+                return end
+            }
+        }
+
+//        }
+    };
+    console.log(reverse(1534236469))
+</script>
+</body>
+</html>

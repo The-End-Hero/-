@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Z字形转换</title>
+</head>
+<body>
+<script>
+    /**
+     *0     6     c     i
+     *1   5 7   b d   h
+     *2 4   8 a   e g
+     *3     9     f
+     *
+     *
+     * @param {string} s
+     * @param {number} numRows
+     * @return {string}
+     */
+    var convert = function (s, numRows) {
+        var arr = []
+        if (s.length <= numRows) {
+            return s
+        } else {
+            for (var i = 0; i < numRows; i++) { // 按行遍历 i
+                if (i == 0) { // 第一行
+                    console.log(i)
+                    for (var j = 0; j < s.length; j += (numRows - 1) * 2) {
+                        arr.push(s[0 + j])
+                    }
+                    console.log(arr)
+                }
+                if (i != 0 && i != numRows - 1) { // 中间行
+                    console.log(i)
+                    var num = 0  // 完整的Z 竖主干个数
+                    for (var j = 0; j < s.length; j += (numRows - 1) * 2) {
+                        if (!!s[i + j].toString()) {
+                            num += 1
+                        }
+                    }
+                    var size = (numRows - 1) * 2
+                    console.log(size,'size')
+                    console.log(num,'num')
+//                    for (var k = 1; k < num+1; k++) {
+//                        if (k % 2 != 0) {
+//                            arr.push(s[i + size * (i - k)])
+//                            console.log(s[i + size * (i - k)],'s[i + size * (i - k)]')
+//                        } else {
+//                            arr.push(s[i + size * (i - k) + (size - 2 * i)])
+//                            console.log(s[i + size * (i - k) + (size - 2 * i)],'s[i + size * (i - k) + (size - 2 * i)]')
+//                        }
+//                    }
+                    // s[i] s[i+size-2*1] s[i+size-2*2]  -->size-2*x ==2
+                    console.log(arr)
+                }
+                if (i == numRows - 1) { // 最后一行
+                    console.log(i)
+                    for (var j = 0; j < s.length; j += (numRows - 1) * 2) {
+                        arr.push(s[numRows - 1 + j])
+                    }
+                    console.log(arr)
+                }
+            }
+            console.log(arr)
+            return arr.join().replace(/,/g, '')
+        }
+
+    };
+
+    console.log(convert('0123456789', 4))
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>罗马数字转整数</title>
+</head>
+<body>
+<script>
+    /**来自百度百科）罗马数字是阿拉伯数字传入之前使用的一种数码。
+     * 罗马数字采用七个罗马字母作数字、即Ⅰ（1）、X（10）、C（100）、M（1000）、V（5）、L（50）、D（500）。记数的方法：
+     * 1.相同的数字连写，所表示的数等于这些数字相加得到的数，如 Ⅲ=3；
+     * 2.小的数字在大的数字的右边，所表示的数等于这些数字相加得到的数，如 Ⅷ=8、Ⅻ=12；
+     * 3.小的数字（限于 Ⅰ、X 和 C）在大的数字的左边，所表示的数等于大数减小数得到的数，如 Ⅳ=4、Ⅸ=9；
+     * 4.在一个数的上面画一条横线，表示这个数增值 1,000 倍。(由于题目只考虑4000以内的数，所以这条规则不用考虑)
+     * @param {string} s
+     * @return {number}
+     */
+    var romanToInt = function (s) {
+        var roman = {
+            'I': 1,
+            'X': 10,
+            'C': 100,
+            'M': 1000,
+            'V': 5,
+            'L': 50,
+            'D': 500
+        }
+        var newStr = s
+        var result = 0
+        for (var i = 0; i < newStr.length; i++) {
+            if (i+1 >= newStr.length || roman[newStr[i]] >= roman[newStr[i + 1]]) {
+                result += roman[newStr[i]]
+            }else{
+                result -= roman[newStr[i]]
+            }
+        }
+        return result
+    };
+    console.log(romanToInt('CXXIII'))
+    console.log(romanToInt('MCMXCVI'))
+</script>
+</body>
+</html>

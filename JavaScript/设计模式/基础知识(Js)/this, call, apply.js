@@ -69,6 +69,14 @@ console.log(obj1.getName.call(obj2))
 // 方应杭 https://zhuanlan.zhihu.com/p/23804247
 // this 就是你 call 一个函数时，传入的第一个参数。（请务必背下来「this 就是 call 的第一个参数」）
 // 如果你的函数调用形式不是 call 形式，请按照「转换代码」将其转换为 call 形式。
+/**
+ * bind核心逻辑 a.bind(b) --> return a.apply(b) bind过后不可更改this指向
+ * function (context){
+ *  return function(){
+ *    f.apply(context)
+ *  }
+ * }
+ */
 
 
 

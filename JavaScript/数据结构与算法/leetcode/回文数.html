@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回文数</title>
+</head>
+<body>
+<script>
+    /**
+     * @param {number} x
+     * @return {boolean}
+     */
+    var isPalindrome = function (x) {
+        if (x < 0) {
+            return false
+        } else {
+            if (x < 9) {
+                return true
+            } else {
+                var newStr = x.toString()
+                var arr1 = newStr.split('')
+                var arr2 = arr1.reverse();
+                var newStr2 = arr2.join('');
+                //重构倒序的字符串
+
+                if (newStr == newStr2) {//比较1
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    };
+    console.log(isPalindrome(123))
+    console.log(isPalindrome(12321))
+    console.log(isPalindrome(0))
+    console.log(isPalindrome(-1))
+</script>
+</body>
+</html>

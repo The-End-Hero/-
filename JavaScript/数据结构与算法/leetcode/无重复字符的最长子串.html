@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无重复字符的最长子串</title>
+</head>
+<body>
+<script>
+    var lengthOfLongestSubstring = function(s) {
+        var mostless = s.length
+        for(var i=0;i<s.length-1;i++){
+            for(var j=i+1;j<s.length;j++){
+                if(s[i]==s[j]){
+                    if(!!mostless){
+//                        console.log(mostless,'mostless')
+                                console.log(i,j);
+                        (j-i)<mostless? mostless=(j-i) : mostless = mostless
+                    }else{
+//                        console.log(mostless,'mostless')
+                        mostless = j-i
+                    }
+                }
+            }
+        }
+        return mostless
+    };
+    console.log(lengthOfLongestSubstring('abcabcbb'))
+</script>
+</body>
+</html>
