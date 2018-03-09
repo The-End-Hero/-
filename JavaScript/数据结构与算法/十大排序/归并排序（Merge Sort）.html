@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>归并排序（Merge Sort）</title>
+</head>
+<body>
+<script>
+    /**
+     *作为一种典型的分而治之思想的算法应用，归并排序的实现由两种方法：
+     * 1.自上而下的递归（所有递归的方法都可以用迭代重写，所以就有了第2种方法）
+     * 2.自下而上的迭代
+     * 然而,在 JavaScript 中这种方式不太可行,因为这个算法的递归深度对它来讲太深了。（JS没有对递归进行优化）
+     * 和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。
+     * @param arr
+     * @returns {*}
+     */
+    function mergeSort(arr) {  //采用自上而下的递归方法
+        var len = arr.length;
+        if(len < 2) {
+            return arr;
+        }
+        var middle = Math.floor(len / 2),
+            left = arr.slice(0, middle),
+            right = arr.slice(middle);
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
+    function merge(left, right)
+    {
+        var result = [];
+
+        while (left.length>0 && right.length>0) {
+            if (left[0] <= right[0]) {
+                result.push(left.shift());
+            } else {
+                result.push(right.shift());
+            }
+        }
+
+        while (left.length)
+            result.push(left.shift());
+
+        while (right.length)
+            result.push(right.shift());
+
+        return result;
+    }
+</script>
+</body>
+</html>
