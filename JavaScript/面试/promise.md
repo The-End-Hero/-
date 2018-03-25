@@ -23,7 +23,6 @@ console.log(4)
 2
 4
 3
-
 ```
 
 解释：**Promise 构造函数是同步执行的，promise.then 中的函数是异步执行的**。
@@ -80,7 +79,6 @@ promise
 
 ```
 then: success1
-
 ```
 
 解释：构造函数中的 resolve 或 reject 只有第一次执行有效，多次调用没有任何作用，呼应代码二结论：**promise 状态一旦改变则不能再变**。
@@ -106,7 +104,6 @@ Promise.resolve(1)
 ```
 1
 2
-
 ```
 
 解释：promise 可以链式调用。提起链式调用我们通常会想到通过 return this 实现，不过 Promise 并不是这样实现的。**promise 每次调用 .then 或者 .catch 都会返回一个新的 promise**，从而实现了链式调用。
@@ -161,7 +158,6 @@ Promise.resolve()
 then: Error: error!!!
     at Promise.resolve.then (...)
     at ...
-
 ```
 
 解释：**.then 或者 .catch 中 return 一个 error 对象并不会抛出错误，所以不会被后续的 .catch 捕获，需要改成其中一种：**
