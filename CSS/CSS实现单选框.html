@@ -2,9 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>CSS实现单选框</title>
+    <style>
+        body {
+            background: #fff;
+            padding: 0; margin: 0;
+        }
+
+        label {
+            display: inline;
+        }
+
+
+        /* RADIO */
+
+        .tag{
+            width:500px;
+            height:200px;
+            margin:0 auto;
+        }
+        .regular-radio {
+            display: none;
+        }
+
+        .regular-radio + label {
+            -webkit-appearance: none;
+            background-color: #fff;
+            border: 1px solid #aaa;
+            padding: 9px;
+            border-radius:50px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .regular-radio:checked + label:after {
+            content: ' ';
+            width: 12px;
+            height: 12px;
+            border-radius: 50px;
+            position: absolute;
+            top: 3px;
+            background:#47d9bf;
+            box-shadow:0px 0px 5px 0px #47d9bf;
+            left: 3px;
+        }
+
+    </style>
 </head>
 <body>
-$END$
+<div class="tag">
+    <h3>单选按钮</h3>
+    <div class="button-holder">
+        <input type="radio" id="radio-1-1" name="radio-1-set" class="regular-radio" checked=""><label for="radio-1-1"></label>
+        <input type="radio" id="radio-1-2" name="radio-1-set" class="regular-radio"><label for="radio-1-2"></label>
+        <input type="radio" id="radio-1-3" name="radio-1-set" class="regular-radio"><label for="radio-1-3"></label>
+        <input type="radio" id="radio-1-4" name="radio-1-set" class="regular-radio"><label for="radio-1-4"></label>
+    </div>
+</div>
+<script>
+</script>
 </body>
 </html>
