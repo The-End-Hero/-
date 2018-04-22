@@ -15,6 +15,7 @@
 </head>
 
 <body>
+<div>实际上A元素设置了draggable，另一个独立元素B用onDrop事件，拖拽A到B内部则会触发该事件，可以利用dataTransfer或者sessionStorage来交互</div>
 <div class="dustbin"><br />垃<br />圾<br />箱</div>
 <div class="dragbox">
     <div class="draglist" title="拖拽我" draggable="true">列表1</div>
