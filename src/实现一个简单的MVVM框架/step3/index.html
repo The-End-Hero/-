@@ -11,15 +11,18 @@
 </div>
 
 <script>
-
+/**
+ * data 需要绑定的data
+ */
 function observe(data) {
+    // 类型判断 不是对象直接返回
   if(!data || typeof data !== 'object') return
   for(var key in data) {
     let val = data[key]
     let subject = new Subject()
     Object.defineProperty(data, key, {
-      enumerable: true,
-      configurable: true,
+      enumerable: true,// 当且仅当该属性的enumerable为true时，该属性才能够出现在对象的枚举属性中。默认为 false。
+      configurable: true,// 当且仅当该属性的 configurable 为 true 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 false。
       get: function() {
         console.log(`get ${key}: ${val}`)
         if(currentObserver){
@@ -31,10 +34,10 @@ function observe(data) {
       set: function(newVal) {
         val = newVal
         console.log('start notify...')
-        subject.notify()
+        subject.notify() // 更新
       }
     })
-    if(typeof val === 'object'){
+    if(typeof val === 'object'){ // 还是对象，递归处理
       observe(val)
     }
   }
@@ -46,24 +49,29 @@ let currentObserver = null
 class Subject {
   constructor() {
     this.id = id++
-    this.observers = []
+    this.observers = [] // 观察队列
   }
-  addObserver(observer) {
+  addObserver(observer) { // 加入队列项
     this.observers.push(observer)
   }
-  removeObserver(observer) {
+  removeObserver(observer) { // 移除队列项
     var index = this.observers.indexOf(observer)
     if(index > -1){
       this.observers.splice(index, 1)
     }
   }
-  notify() {
+  notify() { // 更新
     this.observers.forEach(observer=> {
       observer.update()
     })
   }
 }
 
+/**
+ * vm   this
+ * key  绑定的data的key
+ * cb   回调函数
+ */
 class Observer{
   constructor(vm, key, cb) {
     this.subjects = {}
@@ -93,17 +101,19 @@ class Observer{
     currentObserver = null
     return value
   }
-} 
+}
 
 
-
-
+/**
+ * 初始化函数
+ */
 class mvvm {
   constructor(opts) {
     this.init(opts)
     observe(this.$data)
     this.compile()
   }
+  // 获取根标签 需要绑定的data
   init(opts){
     this.$el = document.querySelector(opts.el)
     this.$data = opts.data
@@ -113,7 +123,7 @@ class mvvm {
     this.traverse(this.$el)
   }
   traverse(node){
-    if(node.nodeType === 1){
+    if(node.nodeType === 1){ // 递归
       node.childNodes.forEach(childNode=>{
         this.traverse(childNode)
       })
@@ -121,31 +131,32 @@ class mvvm {
       this.renderText(node)
     }
   }
-  renderText(node){
+  renderText(node){ // 拿到模版
     let reg = /{{(.+?)}}/g
     let match
-    while(match = reg.exec(node.nodeValue)){
+    while(match = reg.exec(node.nodeValue)){ // 遇到模版
       let raw = match[0]
       let key = match[1].trim()
       node.nodeValue = node.nodeValue.replace(raw, this.$data[key])
       new Observer(this, key, function(val, oldVal){
         node.nodeValue = node.nodeValue.replace(oldVal, val)
       })
-    }    
+    }
   }
-    
+
 }
 
 let vm = new mvvm({
   el: '#app',
-  data: { 
-    name: 'jirengu',
+  data: {
+    name: 'wxp',
     age: 3
   }
 })
 
 setInterval(function(){
   vm.$data.age++
+    console.log(currentObserver,'currentObserver')
 }, 1000)
 
 
