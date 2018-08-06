@@ -94,7 +94,7 @@ class Observer{
     currentObserver = null
     return value
   }
-} 
+}
 
 
 class Compile {
@@ -127,7 +127,7 @@ class Compile {
       new Observer(this.vm, key, function(val, oldVal){
         node.nodeValue = node.nodeValue.replace(oldVal, val)
       })
-    }    
+    }
   }
 
   //处理指令
@@ -144,7 +144,7 @@ class Compile {
   }
   bindModel(node, attr){
     let key = attr.value       //attr.value === 'name'
-    node.value = this.vm[key]  
+    node.value = this.vm[key]
     new Observer(this.vm, key, function(newVal){
       node.value = newVal
     })
@@ -155,7 +155,7 @@ class Compile {
   bindEventHander(node, attr){       //attr.name === 'v-on:click', attr.value === 'sayHi'
     let eventType = attr.name.substr(5)       // click
     let methodName = attr.value
-    node.addEventListener(eventType, this.vm.$methods[methodName]) 
+    node.addEventListener(eventType, this.vm.$methods[methodName])
   }
 
   //判断属性名是否是指令
@@ -170,7 +170,7 @@ class Compile {
 }
 
 
-class mvvm {
+class mvvm { // 初始化
   constructor(opts) {
     this.init(opts)
     observe(this.$data)
@@ -191,7 +191,7 @@ class mvvm {
         },
         set: newVal=> {
           this.$data[key] = newVal
-        }        
+        }
       })
     }
 
@@ -203,9 +203,9 @@ class mvvm {
 
 }
 
-let vm = new mvvm({
+let vm = new mvvm({// 初始化
   el: '#app',
-  data: { 
+  data: {
     name: 'jirengu',
     age: 3
   },
