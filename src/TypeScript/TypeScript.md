@@ -462,26 +462,25 @@ w.work();  //对象冒充可以继承构造函数里面的属性和方法   但�
 ### 5.es5里面的继承
 
 ```javascript
-       function Person(){
-            this.name='张三';  /*属性*/
-            this.age=20;
-            this.run=function(){  /*实例方法*/
-                alert(this.name+'在运动');
-            }
-        }
-        Person.prototype.sex="男";
-        Person.prototype.work=function(){
-             alert(this.name+'在工作');
-        }
-        //Web类 继承Person类   原型链+对象冒充的组合继承模式
-        function Web(){
-        }
-
-       Web.prototype=new Person();   //原型链实现继承
-       var w=new Web();
-        //原型链实现继承:可以继承构造函数里面的属性和方法 也可以继承原型链上面的属性和方法
-        //w.run();
-        w.work();
+function Person(){
+	this.name='张三';  /*属性*/
+	this.age=20;
+	this.run=function(){  /*实例方法*/
+		alert(this.name+'在运动');
+	}
+}
+Person.prototype.sex="男";
+Person.prototype.work=function(){
+	alert(this.name+'在工作');
+}
+//Web类 继承Person类   原型链+对象冒充的组合继承模式
+function Web(){
+}
+Web.prototype=new Person();   //原型链实现继承
+var w=new Web();
+//原型链实现继承:可以继承构造函数里面的属性和方法 也可以继承原型链上面的属性和方法
+//w.run();
+w.work();
 ```
 
 
@@ -534,27 +533,26 @@ w.work();  //对象冒充可以继承构造函数里面的属性和方法   但�
 ### 7.原型链+对象冒充的组合继承模式
 
 ```javascript
-  	function Person(name,age){
-            this.name=name;  /*属性*/
-            this.age=age;
-            this.run=function(){  /*实例方法*/
-                alert(this.name+'在运动');
-            }
-    }
-    Person.prototype.sex="男";
-    Person.prototype.work=function(){
-            alert(this.name+'在工作');
-    }
+function Person(name,age){
+	this.name=name;  /*属性*/
+	this.age=age;
+	this.run=function(){  /*实例方法*/
+		alert(this.name+'在运动');
+	}
+}
+Person.prototype.sex="男";
+Person.prototype.work=function(){
+	alert(this.name+'在工作');
+}
 
-
-    function Web(name,age){
-        Person.call(this,name,age);   //对象冒充继承   实例化子类可以给父类传参
-    }
-    Web.prototype=new Person();
-    var w=new Web('赵四',20);   
-    // w.run();
-    w.work();
-    // var w1=new Web('王五',22);
+function Web(name,age){
+	Person.call(this,name,age);   //对象冒充继承   实例化子类可以给父类传参
+}
+Web.prototype=new Person();
+var w=new Web('赵四',20);   
+// w.run();
+w.work();
+// var w1=new Web('王五',22);
 ```
 
 
@@ -562,27 +560,25 @@ w.work();  //对象冒充可以继承构造函数里面的属性和方法   但�
 ### 8.原型链+对象冒充继承的另一种方式
 
 ```javascript
-   function Person(name,age){
-            this.name=name;  /*属性*/
-            this.age=age;
-            this.run=function(){  /*实例方法*/
-                alert(this.name+'在运动');
-            }
-    }
-    Person.prototype.sex="男";
-    Person.prototype.work=function(){
-            alert(this.name+'在工作');
-    }
-
-
-    function Web(name,age){
-        Person.call(this,name,age);   //对象冒充继承  可以继承构造函数里面的属性和方法、实例化子类可以给父类传参
-    }
-    Web.prototype=Person.prototype;
-    var w=new Web('赵四',20);   
-	w.run();
-    // w.work();
-    // var w1=new Web('王五',22);
+function Person(name,age){
+	this.name=name;  /*属性*/
+	this.age=age;
+	this.run=function(){  /*实例方法*/
+		alert(this.name+'在运动');
+	}
+}
+Person.prototype.sex="男";
+Person.prototype.work=function(){
+	alert(this.name+'在工作');
+}
+function Web(name,age){
+	Person.call(this,name,age);   //对象冒充继承  可以继承构造函数里面的属性和方法、实例化子类可以给父类传参
+}
+Web.prototype=Person.prototype;
+var w=new Web('赵四',20);   
+w.run();
+// w.work();
+// var w1=new Web('王五',22);
 ```
 
 
@@ -639,7 +635,6 @@ class Person{
 // var p=new Person('王五');
 // alert(p.run())
 
-
 class Web extends Person{
 	constructor(name:string){
 		super(name);  /*初始化父类的构造函数*/
@@ -647,8 +642,6 @@ class Web extends Person{
 }
 var w=new Web('李四');
 alert(w.run());
-
-
 
 class Person{
 	name:string;

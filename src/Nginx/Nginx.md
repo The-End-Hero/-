@@ -41,7 +41,7 @@ nginx -V            显示 nginx 的版本，编译器版本和配置参数。
 
 nginx.conf 配置文件如下： **注：conf / nginx.conf 是 nginx 的默认配置文件。你也可以使用 nginx -c 指定你的配置文件**
 
-```Shell
+```powershell
 #运行用户
 #user somebody;
 
@@ -179,7 +179,7 @@ nginx 也可以实现简单的负载均衡功能。
 
 nginx.conf 配置如下：
 
-```shell
+```powershell
 http {
      #设定mime类型,类型由mime.type文件定义
     include       /etc/nginx/mime.types;
@@ -250,7 +250,7 @@ http {
 
 配置也不难，来看看怎么做吧：
 
-```shell
+```powershell
 http {
 	#此处省略一些基本配置
 
@@ -303,7 +303,7 @@ http {
 
 
 
-```shell
+```powershell
   #HTTP服务器
   server {
       #监听443端口。443为知名端口号，主要用于HTTPS协议
@@ -341,7 +341,7 @@ http {
 
 配置如下：
 
-```shell
+```powershell
 worker_processes  1;
 
 events {
@@ -403,7 +403,7 @@ web 领域开发中，经常采用前后端分离模式。这种模式下，前�
 
 首先，在 enable-cors.conf 文件中设置 cors ：
 
-```shell
+```powershell
 # allow origin list
 set $ACAO '*';
 
@@ -436,7 +436,7 @@ if ($request_method = 'POST') {
 
 接下来，在你的服务器中 `include enable-cors.conf` 来引入跨域配置：
 
-```shell
+```powershell
 # ----------------------------------------------------
 # 此文件为项目 nginx 配置片段
 # 可以直接在 nginx config 中 include（推荐）
