@@ -466,3 +466,136 @@ server {
   }
 }
 ```
+
+
+
+
+
+配置
+
+例如请求：`http://localhost:3000/test1/test2/test.php`
+
+\$host: localhost
+
+\$server_port：3000
+
+\$request_uri: /test1/test2/test.php
+
+\$document_uri: /test1/test2/test.php
+
+\$document_root: /var/www/html
+
+\$document_root: /var/www/html/test1/test2/test.php
+
+
+
+### Gzip压缩
+
+```powershell
+gzip  on;
+gzip_buffers 16 8k;
+gzip_comp_level 6;
+gzip_http_version 1.1;
+gzip_min_length 256;
+gzip_proxied any;
+gzip_vary on;
+# 匹配MIME类型进行压缩，（无论是否指定）"text/html"类型总是会被压缩的。
+gzip_types 
+    text/xml application/xml application/atom+xml application/rss+xml application/xhtml+xml image/svg+xml
+    text/javascript application/javascript application/x-javascript
+    text/x-json application/json application/x-web-app-manifest+json
+    text/css text/plain text/x-component
+    font/opentype application/x-font-ttf application/vnd.ms-fontobject
+    image/x-icon;
+gzip_disable  "msie6";
+```
+
+### 
+
+### 强制将http重定向到https
+
+```powershell
+server {
+    listen       80;
+    server_name  example.com;
+    rewrite ^ https://$http_host$request_uri? permanent;    # 强制将http重定向到https
+    # 在错误页面和“服务器”响应头字段中启用或禁用发射 nginx版本 。 防止黑客利用版本漏洞攻击
+    server_tokens off;
+}
+```
+
+### 
+
+### 爬虫过滤
+
+根据 `User-Agent` 过滤请求，通过一个简单的正则表达式，就可以过滤不符合要求的爬虫请求(初级爬虫)。
+
+> `~*` 表示不区分大小写的正则匹配
+
+```powershell
+location / {
+    if ($http_user_agent ~* "python|curl|java|wget|httpclient|okhttp") {
+        return 503;
+    }
+    # 正常处理
+    # ...
+}
+```
+
+
+
+### 防盗链
+
+```powershell
+location ~* \.(gif|jpg|png|swf|flv)$ {
+   root html
+   valid_referers none blocked *.nginxcn.com;
+   if ($invalid_referer) {
+     rewrite ^/ www.nginx.cn
+     #return 404;
+   }
+}
+```
+
+
+
+### 虚拟目录配置
+
+alias指定的目录是准确的，root是指定目录的上级目录，并且该上级目录要含有location指定名称的同名目录。
+
+```powershell
+location /img/ {
+    alias /var/www/image/;
+}
+# 访问/img/目录里面的文件时，ningx会自动去/var/www/image/目录找文件
+location /img/ {
+    root /var/www/image;
+}
+# 访问/img/目录下的文件时，nginx会去/var/www/image/img/目录下找文件。]
+```
+
+
+
+### 防盗图配置
+
+```powershell
+location ~ \/public\/(css|js|img)\/.*\.(js|css|gif|jpg|jpeg|png|bmp|swf) {
+    valid_referers none blocked *.jslite.io;
+    if ($invalid_referer) {
+        rewrite ^/  http://wangchujiang.com/piratesp.png;
+    }
+}
+```
+
+
+
+### 屏蔽.git等文件
+
+```powershell
+location ~ (.git|.gitattributes|.gitignore|.svn) {
+    deny all;
+}
+```
+
+
+
