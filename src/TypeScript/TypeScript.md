@@ -81,9 +81,9 @@ console.log(arr);
 >   enum 枚举名{	
 >
 >  	标识符[=整型常数],
->
+>		
 >  	标识符[=整型常数],
->
+>		
 >  	...
 >
 >  }
@@ -1336,3 +1336,29 @@ myGetData('20');
 /*正确*/
 // myGetData(20)  //错误
 ```
+
+
+
+## tsconfig.json
+
+
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs", 
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "noEmitHelpers": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
+  ],
+  "compileOnSave": false
+}
+```
+
