@@ -78,12 +78,15 @@ console.log(arr);
 >  枚举类型（enum）
 >     随着计算机的不断普及，程序不仅只用于数值计算，还更广泛地用于处理非数值的数据。例如：性别、月份、星期几、颜色、单位名、学历、职业等，都不是数值数据。在其它程序设计语言中，一般用一个数值来代表某一状态，这种处理方法不直观，易读性差。如果能在程序中用自然语言中有相应含义的单词来代表某一状态，则程序就很容易阅读和理解。也就是说，事先考虑到某一变量可能取的值，尽量用自然语言中含义清楚的单词来表示它的每一个值，这种方法称为枚举方法，用这种方法定义的类型称枚举类型。
 >
->   enum 枚举名{	
+>   enum 枚举名{
 >
 >  	标识符[=整型常数],
->	
+>
 >  	标识符[=整型常数],
->	
+>
+>
+>  	标识符[=整型常数],
+>
 >  	...
 >
 >  }
@@ -293,7 +296,7 @@ alert( getInfo('张三',30));
 function sum(...result:number[]):number{
 	var sum=0;
 	for(var i=0;i<result.length;i++){
-		sum+=result[i];  
+		sum+=result[i];
 	}
 	return sum;
 }
@@ -303,7 +306,7 @@ alert(sum(1,2,3,4,5,6)) ;
 function sum(a:number,b:number,...result:number[]):number{
 	var sum=a+b;
 	for(var i=0;i<result.length;i++){
-		sum+=result[i];  
+		sum+=result[i];
 	}
 	return sum;
 }
@@ -321,7 +324,7 @@ TS函数重载
 > ts为了兼容es5以及es6，重载的写法和java中有区别。
 
 ```javascript
-//es5中出现同名方法，下面的会替换上面的方法 
+//es5中出现同名方法，下面的会替换上面的方法
 function css(config){
 }
 function css(config,value){
@@ -426,7 +429,7 @@ Person.prototype.sex="男";
 Person.prototype.work=function(){
 	alert(this.name+'在工作');
 }
-var p=new Person();    
+var p=new Person();
 p.work();
 //调用静态方法
 Person.getInfo();
@@ -443,7 +446,7 @@ function Person(){
 	this.run=function(){  /*实例方法*/
 		alert(this.name+'在运动');
 	}
-}      
+}
 Person.prototype.sex="男";
 Person.prototype.work=function(){
 	alert(this.name+'在工作');
@@ -549,7 +552,7 @@ function Web(name,age){
 	Person.call(this,name,age);   //对象冒充继承   实例化子类可以给父类传参
 }
 Web.prototype=new Person();
-var w=new Web('赵四',20);   
+var w=new Web('赵四',20);
 // w.run();
 w.work();
 // var w1=new Web('王五',22);
@@ -575,7 +578,7 @@ function Web(name,age){
 	Person.call(this,name,age);   //对象冒充继承  可以继承构造函数里面的属性和方法、实例化子类可以给父类传参
 }
 Web.prototype=Person.prototype;
-var w=new Web('赵四',20);   
+var w=new Web('赵四',20);
 w.run();
 // w.work();
 // var w1=new Web('王五',22);
@@ -601,7 +604,7 @@ p.run()
 
 //----分割----
 class Person{
-	name:string; 
+	name:string;
 	constructor(name:string){  //构造函数   实例化类的时候触发的方法
 		this.name=name;
 	}
@@ -673,7 +676,7 @@ alert(w.run());
 
 
 
-### 3.类里面的修饰符 
+### 3.类里面的修饰符
 
 > ts的三种修饰符
 >
@@ -1241,7 +1244,7 @@ function getData<T>(value: T): T {
 }
 getData<number>(123);
 getData<string>('1214231');
-getData<number>('2112');/*错误的写法*/  
+getData<number>('2112');/*错误的写法*/
 
 
 function getData<T>(value: T): any {
@@ -1276,8 +1279,8 @@ m.add(23);
 m.add(6);
 m.add(7);
 alert(m.min
-      
-      
+
+
 class MinClas<T>{
     public list:T[]=[];
     add(value:T):void{
@@ -1302,7 +1305,7 @@ var m2=new MinClas<string>();   /*实例化类 并且制定了类的T代表的�
 m2.add('c');
 m2.add('a');
 m2.add('v');
-alert(m2.min())    
+alert(m2.min())
 
 
 
@@ -1337,7 +1340,28 @@ myGetData('20');
 // myGetData(20)  //错误
 ```
 
+## tsconfig.json
 
+
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "noEmitHelpers": true
+  },
+  "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
+  ],
+  "compileOnSave": false
+}
+```
 
 
 
@@ -1346,3 +1370,6 @@ myGetData('20');
 ### 动态赋值this[key]=value =>TS7017
 
 > this[key]=value 改为 (this as any)[key]=value
+
+
+
