@@ -81,9 +81,9 @@ console.log(arr);
 >   enum 枚举名{	
 >
 >  	标识符[=整型常数],
->
+>	
 >  	标识符[=整型常数],
->
+>	
 >  	...
 >
 >  }
@@ -1336,3 +1336,13 @@ myGetData('20');
 /*正确*/
 // myGetData(20)  //错误
 ```
+
+
+
+
+
+## 积累
+
+### 动态赋值this[key]=value =>TS7017
+
+> this[key]=value 改为 (this as any)[key]=value
