@@ -18,6 +18,14 @@ postmessage从**ie8**开始
 
 ### HTTP 状态码
 
+#### 1XX(临时响应状态码)
+
+> 100 （继续） 请求者应当继续提出请求。 服务器返回此代码表示已收到请求的第一部分，正在等待其余部分。 
+
+> 101 （切换协议） 请求者已要求服务器切换协议，服务器已确认并准备切换。
+
+
+
 #### 2XX(Success 成功状态码)
 
 > 200 OK
@@ -30,13 +38,13 @@ postmessage从**ie8**开始
 
 #### 3XX(Redirection 重定向状态码)
 
-> 301 Moved Permanently  永久重定向
+> 301 （永久移动）Moved Permanently  永久重定向
 
-> 302 Found 临时性重定向
+> 302 （临时移动）Found 临时性重定向
 
-> 303 See Other
+> 303 （查看其他位置）See Other
 
-> 304 Not Modified
+> 304 （未修改,缓存性能相关）Not Modified
 
 
 
@@ -73,4 +81,11 @@ postmessage从**ie8**开始
 ### HTTP优化
 
 - http1.1中合并请求，每个浏览器对应有最大请求并发量，过多会进入queueing，类似瓦片服务器中的问题。
+- http1.1中默认开启keep-live
 - http2中信道复用
+
+
+
+### HTTP缓存
+
+HTTP缓存是前端优化当中重要的一部分（不过大多数时候是无感知的，仿佛被人从背后射了一箭）。
