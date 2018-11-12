@@ -1,6 +1,11 @@
 - [Basic Hooks](https://reactjs.org/docs/hooks-reference.html#basic-hooks)
   - [`useState`](https://reactjs.org/docs/hooks-reference.html#usestate)
-  - [`useEffect`](https://reactjs.org/docs/hooks-reference.html#useeffect)
+  - [`useEffect`](https://reactjs.org/docs/hooks-reference.html#useeffect) 
+    - 副作用。
+    - 初始化执行，每次更新执行。
+    - 第一参数处理函数，return一个函数，则在卸载组件前执行该函数
+    - 第二个参数数组（比较差异，相同则直接跳过）
+    - 可以写多个，依次执行。
   - [`useContext`](https://reactjs.org/docs/hooks-reference.html#usecontext)
 - [Additional Hooks](https://reactjs.org/docs/hooks-reference.html#additional-hooks)
   - [`useReducer`](https://reactjs.org/docs/hooks-reference.html#usereducer)
